@@ -1,0 +1,56 @@
+
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+    }
+
+    .table td {
+        text-align: center;
+        padding-left: 5%;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .status {
+        max-width: 1em;
+        text-align: center;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+} 
+
+.placeholder-row1 {
+    height: 3.06em; 
+    background-color: #f8f9fa;
+}
+
+.deleteProfile{
+    cursor: crosshair;
+}

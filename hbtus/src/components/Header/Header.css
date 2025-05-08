@@ -1,0 +1,53 @@
+.navBar{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    background-color: rgb(46, 135, 212);
+    max-height: 5em;
+}
+
+.d-flex {
+    margin-right: auto;
+    display: right;
+}
+
+.exit {
+    display: flex;
+    width: 2em;
+    height: 1.9em;
+    margin-top: 0.6em;
+}
+
+.iconNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3em;
+    height: 2em;
+    cursor: pointer;
+    padding: 0.1em;
+    
+}
+
+.iconDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.6em;
+    width: 10em;
+    max-height: 6em;
+    min-height: 2em;
+}
+
+h2 {
+    align-items: center;
+    margin-top: 0.5em;
+}
+
+.actions {
+    position: absolute;
+    margin-top: -1em; 
+    z-index: 1000; 
+    margin-left: 5em;
+    transform: translateX(-50%);
+}
