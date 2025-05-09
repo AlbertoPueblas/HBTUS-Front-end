@@ -1,35 +1,28 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
 import Table from 'react-bootstrap/Table';
-import {
-    allUsers,
-    deleteAppointmentByAdmin,
-    deleteUser,
-    restoreUser,
-    desactiveUser,
-    createAppointmentByAdmin
-} from "../../services/apiCalls";
+import { allUsers, deleteAppointmentByAdmin, deleteUser, restoreUser, desactiveUser, createAppointmentByAdmin } from "../../services/apiCalls";
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import UserCard from "../../components/Card/ModalCard";
 import Pagination from 'react-bootstrap/Pagination';
 import { toast } from "react-toastify";
-import { FcPlanner } from "react-icons/fc";
+import { FcCancel, FcPlanner } from "react-icons/fc";
 import AppointmentModal from "../../components/AppointmentCard/AppointmentCard";
-
-//------------------------------------------------------------------------------------
+import { CgProfile } from "react-icons/cg";
 
 export const Admin = () => {
     const [users, setUsers] = useState([]);
     const [stateUser, setStateUser] = useState(false);
     const [showAppointmentModal, setShowAppointmentModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [showProfile, setShowProfile] = useState(false);
+    const [selectedProfile, setSelectedProfile] = useState(null);
     const [appointmentData, setAppointmentData] = useState({
         service: "",
         price: ""
     });
 
-    // Paginación
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 12;
@@ -37,8 +30,6 @@ export const Admin = () => {
     const userReduxData = useSelector(getUserData);
     const token = userReduxData.token;
     const userType = userReduxData.decoded.userRole;
-
-    const [filterUser, setFilterUser] = useState([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -50,11 +41,9 @@ export const Admin = () => {
                 }));
                 setUsers(fetchedUsers);
                 setTotalPages(res.data.total_pages);
-                console.log("desde admin",res.data.users);
             } catch (error) {
                 toast.error(error.message || "Error fetching users");
             }
-            
         };
         fetchUsers();
     }, [currentPage, token, stateUser, userType]);
@@ -64,99 +53,87 @@ export const Admin = () => {
     };
 
     const restoreProfile = async (id) => {
-        if (userType !== "Admin") {
-            toast.error("Unauthorized action", "#f44336");
-            return;
-        }
         try {
             await restoreUser(id, token);
-            toast.success("Profile restored", "#4caf50");
+            toast.success("Profile restored");
             handleStateUserSuccessfully();
-        } catch (error) {
+        } catch {
             toast.error("Error to restore profile");
         }
     };
 
     const desactiveProfile = async (id) => {
-        if (userType !== "Admin") {
-            toast.error("Unauthorized action", "#f44336");
-            return;
-        }
         try {
             await desactiveUser(id, token);
-            toast.success("Profile disabled", "#4caf50");
+            toast.success("Profile disabled");
             handleStateUserSuccessfully();
-        } catch (error) {
+        } catch {
             toast.error("Error to disable profile");
         }
     };
 
     const deletePermanent = async (id) => {
-        if (userType !== "Admin") {
-            toast.error("Unauthorized action", "#f44336");
-            return;
-        }
         try {
             await deleteUser(id, token);
-            // Ajustar la página si es necesario
             if (users.length === 1 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
-            toast.success("User deleted successfully", "#4caf50");
-        } catch (error) {
+            toast.success("User deleted successfully");
+            handleStateUserSuccessfully();
+        } catch {
             toast.error("Error deleting user");
         }
-        handleStateUserSuccessfully();
     };
 
     const delAppointment = async (id) => {
         if (window.confirm("Are you sure you want to delete this appointment?")) {
             try {
-                await deleteTreatmentByAdmin(id, token);
-                toast.success("Appointment deleted successfully", "#4caf50");
-            } catch (error) {
+                await deleteAppointmentByAdmin(id, token);
+                toast.success("Appointment deleted");
+                handleStateUserSuccessfully();
+            } catch {
                 toast.error("Error deleting appointment");
             }
         }
     };
 
-    // Función para crear una cita
     const handleCreateAppointment = async (userId, appointmentDate, serviceId) => {
         if (!appointmentDate || !serviceId) {
             toast.error("Please complete all fields.");
             return;
         }
         try {
-            await createAppointmentByAdmin({
-                appointmentDate,
-                serviceId,
-                userId
-            }, token);
-            toast.success("Appointment created successfully.");
+            await createAppointmentByAdmin({ appointmentDate, serviceId, userId }, token);
+            toast.success("Appointment created");
             handleStateUserSuccessfully();
-            setShowAppointmentModal(false); // Cierra el modal
-        } catch (error) {
-            toast.error("Error creating appointment.");
+            closeAppointmentModal();
+        } catch {
+            toast.error("Error creating appointment");
         }
     };
 
-    // Abrir el modal para crear cita
-    const openAppointmentModal = (user) => {
-        console.log("Abriendo modal de tratamiento para el usuario:", user); // Depuración
-        setAppointmentData({
-            service: "", // Aquí puedes asignar el servicio que desees
-            price: "" // Y el precio inicial
-        });
-        setSelectedUser(user); // Configura el usuario seleccionado
-        setShowAppointmentModal(true);
+    const handleShowProfile = (user) => {
+        setSelectedProfile(user);
+        setShowProfile(true);
+        setShowAppointmentModal(false); // Close the appointment modal if open
     };
 
+    const openAppointmentModal = (user) => {
+        setAppointmentData({ service: "", price: "" });
+        setSelectedUser(user);
+        setShowAppointmentModal(true);
+        setShowProfile(false); // Close the profile modal if open
+    };
+    const handleCloseProfile = () => {
+        setShowProfile(false); 
+        setSelectedProfile(null);
+    };
+    
     const closeAppointmentModal = () => {
         setShowAppointmentModal(false);
-        setSelectedUser(null); // Limpia el usuario seleccionado
+        setSelectedUser(null);
     };
 
-    // Paginación
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -168,16 +145,16 @@ export const Admin = () => {
 
     return (
         <div className="table-responsive">
-            <h3>Users</h3>
+            <h3>Usuarios</h3>
             <Table striped bordered hover className="table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Email</th>
-                        <th>Phone</th>
-                        <th className="celda">Actions</th>
+                        <th>Teléfono</th>
+                        <th className="celda">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -189,19 +166,28 @@ export const Admin = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                                <UserCard
-                                    user={user}
-                                    restoreUser={restoreProfile}
-                                    desactiveUser={desactiveProfile}
-                                    deleteUser={deletePermanent}
-                                    onStateUserSuccess={handleStateUserSuccessfully}
-                                    deleteAppointmentByAdmin={delAppointment}
-                                    handleCreateAppointment={handleCreateAppointment} // Pasar la función a UserCard
-                                />
-
-                                {user.appointment.length > 0 && (
-                                    <FcPlanner className="icon" variant="primary" onClick={() => openAppointmentModal(user)} />
+                                {showProfile && selectedProfile?.id === user.id && (
+                                    <UserCard
+                                        user={user}
+                                        showProfile={showProfile}
+                                        restoreUser={restoreProfile}
+                                        desactiveUser={desactiveProfile}
+                                        deleteUser={deletePermanent}
+                                        onStateUserSuccess={handleStateUserSuccessfully}
+                                        handleCreateAppointment={handleCreateAppointment}
+                                        onHideModal={handleCloseProfile}  // Aquí se pasa la función handleCloseProfile
+                                    />
                                 )}
+                                <div className="icons">
+                                    {user.isActive ? (
+                                        <CgProfile className='icon' onClick={() => handleShowProfile(user)} />
+                                    ) : (
+                                        <FcCancel className='icon' onClick={() => handleShowProfile(user)} />
+                                    )}
+                                    {user.appointment.length > 0 && (
+                                        <FcPlanner className="icon" onClick={() => openAppointmentModal(user)} />
+                                    )}
+                                </div>
                             </td>
                         </tr>
                     ))}
@@ -212,12 +198,10 @@ export const Admin = () => {
                     ))}
                 </tbody>
             </Table>
+
             <div className="pagination">
                 <Pagination>
-                    <Pagination.Prev
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                    />
+                    <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
                     {[...Array(totalPages)].map((_, index) => (
                         <Pagination.Item
                             key={index + 1}
@@ -227,30 +211,20 @@ export const Admin = () => {
                             {index + 1}
                         </Pagination.Item>
                     ))}
-                    <Pagination.Next
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                    />
+                    <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
                 </Pagination>
             </div>
 
-            {/* Modal para crear cita */}
             {showAppointmentModal && (
                 <AppointmentModal
-                showProfile={false}
-                onHideProfile={() => {}} // o puedes no pasarlo si no se usa
-                showAppointments={showAppointmentModal}
-                onHideAppointments={closeAppointmentModal}
-                appointmentData={appointmentData}
-                setAppointmentData={setAppointmentData}
-                onSave={handleCreateAppointment}
-                modalType="create"
-                appointments={selectedUser?.appointment || []}
-                onModifyAppointment={() => {}}
-                // IMPORTANTE: lo que estaba causando que no aparezcan los datos
-                setProfileData={() => {}} // opcional, puedes omitirlo si no se usa
-            />
-            
+                    showAppointments={showAppointmentModal}
+                    onHideAppointments={closeAppointmentModal}
+                    appointmentData={appointmentData}
+                    setAppointmentData={setAppointmentData}
+                    onSave={handleCreateAppointment}
+                    modalType="create"
+                    appointments={selectedUser?.appointment || []}
+                />
             )}
         </div>
     );

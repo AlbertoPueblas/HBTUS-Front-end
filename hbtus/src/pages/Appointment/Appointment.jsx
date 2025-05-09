@@ -78,7 +78,7 @@ export const AdminAppointment = () => {
     }
     return (
         <div className="table-responsive">
-            <h3>Appointment</h3>
+            <h3>Todas las citas</h3>
 
             <Table striped bordered hover className="table">
                 <thead>
@@ -89,8 +89,6 @@ export const AdminAppointment = () => {
                         <th>Email</th>
                         <th>Nombre</th>
                         <th> Phone</th>
-                        <th>Acciones</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -104,10 +102,6 @@ export const AdminAppointment = () => {
                             <td>{date.user?.email}</td>
                             <td width={200}>{date.user?.firstName || '-'}</td>
                             <td width={120}>{ }{date.user?.phone}</td>
-                            <FiSettings className="setings"
-                                onClick={(e) => handleShowModify(t)} />
-                            <MdOutlineDeleteForever className="delete"
-                                onClick={(e) => handleDeleteTreatment(t.id)} />
                         </tr>
                     ))}
                     {/* Genera columnas vacias  */}

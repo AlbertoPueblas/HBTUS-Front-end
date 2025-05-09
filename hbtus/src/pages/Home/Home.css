@@ -1,0 +1,40 @@
+.titulo {
+    color: blue;
+}
+
+.advertencia {
+    margin-top: 3rem;
+    color: red;
+}
+
+.presentacion {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+}
+span {
+    font-weight: bold;
+}
+
+.tarjetaHome {
+    background-image: url('/images/metatron-fondo.jpeg');
+    box-shadow: 1rem 1rem 2rem 0.5rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+}
+
+.tarjetaHome::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* Oscurece el fondo */
+    z-index: 0;
+    border-radius: inherit;
+}
+
+.tarjetaHome > * {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté sobre el overlay */
+}

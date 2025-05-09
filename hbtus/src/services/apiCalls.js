@@ -147,6 +147,7 @@ export const createTreatment = async (treatmentData, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
+console.log(treatmentData);
 
   return axios.post(`${API_URL}service/create`, treatmentData, config)
 }

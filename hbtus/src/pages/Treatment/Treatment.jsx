@@ -9,7 +9,7 @@ import { FiSettings } from "react-icons/fi";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import "./Treatment.css"
 import { toast } from "react-toastify";
-import TreatmentModal from "../../components/Card/TreatmentCard/TreatmentCard";
+import TreatmentModal from "../../components/TreatmentCard/TreatmentCard";
 
 
 //-------------------------------------------------------------------------------------
@@ -67,17 +67,24 @@ export const Treatments = () => {
 
     const handleCreateTreatment = async () => {
         try {
-            await createTreatment(treatmentData, token);
-            toast.success("El tratamiento ha sido creado",);
+            const newTreatmentData = {
+                ...treatmentData,
+                price: Number(treatmentData.price)
+            };
+    
+            await createTreatment(newTreatmentData, token);
+            toast.success("El tratamiento ha sido creado");
             setShowCreate(false);
             setTreatmentData({ service: "", price: "" });
-
-            const res = await createTreatment(token, currentPage);
+    
+            const res = await allTreatments(token, currentPage);
             setServices(res.data.services);
         } catch (error) {
+            console.error(error);
             toast.error("Fallo al crear el tratamiento");
         }
     };
+    
 
     const handleModifyTreatment = async () => {
         try {
@@ -134,18 +141,18 @@ export const Treatments = () => {
 
     return (
         <div className="table-responsive">
-            <h3>Services</h3>
+            <h3>Servicios</h3>
             <Table striped bordered hover className="table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Service
+                        <th>Servicio
                             <FcPlus className="cita"
                                 onClick={handleShowCreate} />
 
                         </th>
-                        <th>Price</th>
-                        <th>Action</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -176,6 +183,7 @@ export const Treatments = () => {
                 setTreatmentData={setTreatmentData}
                 onCreate={handleCreateTreatment}
                 onSave={handleCreateTreatment}
+                 modalType="create"
             />
             <TreatmentModal
                 show={showModify}

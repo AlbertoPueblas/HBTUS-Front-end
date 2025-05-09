@@ -54,3 +54,37 @@
 .deleteProfile{
     cursor: crosshair;
 }
+
+  .icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  
+  .icon:hover {
+    transform: scale(1.2);
+    color: #007bff; /* puedes cambiar el color al que quieras */
+  }
+  
+
+.deleteProfile {
+    color: red;
+}
+
+.active:hover {
+    cursor: pointer;
+    color: rgba(128, 255, 0, 0.788);
+
+}
+
+.desActive:hover {
+    cursor: pointer;
+    color: red;
+
+}

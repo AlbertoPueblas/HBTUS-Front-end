@@ -87,7 +87,6 @@ function AppointmentModal({
         }
         onStateUserSuccess();
     };
-    console.log("pintamos",users)
 
     return (
         <>
@@ -171,13 +170,7 @@ function AppointmentModal({
                     ) : (
                         <p></p>
                     )}
-                        {/* <p>No tienes citas agendadas.</p>
-                        <input className='inputCalendario'
-                            type="datetime-local"
-                            name="appointmentDate"
-                            value={dayjs(modifiedAppointment.appointmentDate).format("YYYY-MM-DDTHH:mm")}
-                            onChange={handleInputChange}/> */}
-
+                      
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseAppointments}>

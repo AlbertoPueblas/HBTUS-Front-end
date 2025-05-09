@@ -11,6 +11,7 @@ import { FcImport } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import { IoPersonOutline, IoHomeOutline, IoCalendarOutline, IoImageOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
+import { ButtonGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 
 
 //----------------------------------------------------------------
@@ -41,19 +42,22 @@ function Header() {
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-          {userType === 1 ? (
+          {userType === "Admin" ? (
             <>
-              <NavDropdown title="Actions" id="navbarScrollingDropdown" className='actions' >
-                <NavDropdown.Item href="/admin">Users</NavDropdown.Item>
-                <NavDropdown.Item href="/stylist">Stylist</NavDropdown.Item>
-                <NavDropdown.Item href="/allAppointment">Appointment</NavDropdown.Item>
-                <NavDropdown.Item href="/treatments">Treatment</NavDropdown.Item>
-                <NavDropdown.Divider />
+              <ButtonGroup>
+      <DropdownButton as={ButtonGroup} title="Acciones" id="bg-nested-dropdown">
+        <Dropdown.Item href="/">Home</Dropdown.Item>
+        <Dropdown.Item href="/admin">Usuarios</Dropdown.Item>
+        <Dropdown.Item href="/appointment">Citas</Dropdown.Item>
+        <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
+          <NavDropdown.Divider />
                 {token && <Nav.Link href="/profile">Profile</Nav.Link>}
-              </NavDropdown>
+      </DropdownButton>
+    </ButtonGroup>
+
             </>
 
-          ) : userType === 2 ? (
+          ) : userType === "User" ? (
             <>
               <NavDropdown title="Manager" className='actions' >
                 <NavDropdown.Item href="/manager">Users</NavDropdown.Item>

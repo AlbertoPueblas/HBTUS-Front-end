@@ -1,9 +1,11 @@
 import "./TreatmentCard.css";
 import { useSelector } from 'react-redux';
-import { getUserData } from '../../../app/slice/userSlice';
+import { getUserData } from '../../app/slice/userSlice';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+
+//---------------------------------------------------------------------
 
 function TreatmentModal({ show, onHide, treatmentData, setTreatmentData, onSave, modalType, appointments, onModifyAppointment }) {
     const myPassport = useSelector(getUserData);
