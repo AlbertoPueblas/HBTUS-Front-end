@@ -96,6 +96,7 @@ function UserCard({
                     </Button>
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button variant="primary" >Historial</Button>
                     <Button variant="secondary" onClick={onHideModal}>Cerrar</Button>
                 </Modal.Footer>
             </Modal>

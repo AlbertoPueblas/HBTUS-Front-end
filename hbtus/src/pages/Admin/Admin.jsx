@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
 import Table from 'react-bootstrap/Table';
-import { allUsers, deleteAppointmentByAdmin, deleteUser, restoreUser, desactiveUser, createAppointmentByAdmin } from "../../services/apiCalls";
+import { allUsers, deleteAppointmentByAdmin, deleteUser, restoreUser, desactiveUser, createAppointmentByAdmin, getDatesUsersByAdmin, updateAppointment, allTreatments } from "../../services/apiCalls";
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import UserCard from "../../components/Card/ModalCard";
 import Pagination from 'react-bootstrap/Pagination';
 import { toast } from "react-toastify";
 import { FcCancel, FcPlanner } from "react-icons/fc";
-import AppointmentModal from "../../components/AppointmentCard/AppointmentCard";
+import AppointmentModal from "../../components/AppointmentModal/AppointmentModal";
 import { CgProfile } from "react-icons/cg";
 
 export const Admin = () => {
     const [users, setUsers] = useState([]);
     const [stateUser, setStateUser] = useState(false);
+    const [services, setServices] = useState([]);
     const [showAppointmentModal, setShowAppointmentModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [showProfile, setShowProfile] = useState(false);
     const [selectedProfile, setSelectedProfile] = useState(null);
-    const [appointmentData, setAppointmentData] = useState({
-        service: "",
-        price: ""
-    });
-
+    const [appointmentData, setAppointmentData] = useState([]);  // Se cambia a lista vacía
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const itemsPerPage = 12;
+    const itemsPerPage = 15;
 
     const userReduxData = useSelector(getUserData);
     const token = userReduxData.token;
@@ -47,6 +44,19 @@ export const Admin = () => {
         };
         fetchUsers();
     }, [currentPage, token, stateUser, userType]);
+
+    useEffect(() => {
+  const fetchServices = async () => {
+    try {
+      const res = await allTreatments(token); // función que llame al endpoint de servicios
+      setServices(res.data); // asumiendo que el array viene en res.data
+    } catch (error) {
+      toast.error(error.message || "Error fetching services");
+    }
+  };
+  fetchServices();
+}, [token]);
+
 
     const handleStateUserSuccessfully = () => {
         setStateUser(!stateUser);
@@ -102,8 +112,12 @@ export const Admin = () => {
             toast.error("Please complete all fields.");
             return;
         }
+
+        // Convertir la fecha a un formato compatible con MySQL (YYYY-MM-DD HH:mm:ss)
+        const formattedDate = new Date(appointmentDate).toISOString().slice(0, 19).replace("T", " ");
+
         try {
-            await createAppointmentByAdmin({ appointmentDate, serviceId, userId }, token);
+            await createAppointmentByAdmin({ appointmentDate: formattedDate, serviceId, userId }, token);
             toast.success("Appointment created");
             handleStateUserSuccessfully();
             closeAppointmentModal();
@@ -118,17 +132,37 @@ export const Admin = () => {
         setShowAppointmentModal(false); // Close the appointment modal if open
     };
 
-    const openAppointmentModal = (user) => {
-        setAppointmentData({ service: "", price: "" });
+    const openAppointmentModal = async (user) => {
         setSelectedUser(user);
+        setAppointmentData([]); // Reinicia los datos de la cita
+
+        try {
+            const response = await getDatesUsersByAdmin(user.id, token);
+            
+            // Accedemos correctamente a la propiedad 'data' que contiene las citas
+            const appointments = Array.isArray(response.data) ? response.data : [];
+
+            if (appointments.length === 0) {
+                toast.info("Este usuario no tiene citas.");
+            }
+
+            setAppointmentData(appointments); // Asigna las citas si es un array
+        } catch (error) {
+            console.error("Error fetching appointments:", error);
+            setAppointmentData([]);  // Asegúrate de que appointmentData sea siempre un array vacío si hay error
+            toast.error("Hubo un problema al obtener las citas.");
+        }
+
         setShowAppointmentModal(true);
-        setShowProfile(false); // Close the profile modal if open
+        setShowProfile(false);  // Asegúrate de ocultar el perfil cuando abres el modal de cita
     };
+
+
     const handleCloseProfile = () => {
         setShowProfile(false); 
         setSelectedProfile(null);
     };
-    
+
     const closeAppointmentModal = () => {
         setShowAppointmentModal(false);
         setSelectedUser(null);
@@ -137,6 +171,19 @@ export const Admin = () => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+
+    const reloadAppointments = async () => {
+  if (!selectedUser) return;
+
+  try {
+    const response = await getDatesUsersByAdmin(selectedUser.id, token);
+    const appointments = Array.isArray(response.data) ? response.data : [];
+    setAppointmentData(appointments);
+  } catch (error) {
+    toast.error("Error al recargar las citas.");
+  }
+};
+
 
     let placeholders = [];
     if (users.length < itemsPerPage) {
@@ -175,7 +222,7 @@ export const Admin = () => {
                                         deleteUser={deletePermanent}
                                         onStateUserSuccess={handleStateUserSuccessfully}
                                         handleCreateAppointment={handleCreateAppointment}
-                                        onHideModal={handleCloseProfile}  // Aquí se pasa la función handleCloseProfile
+                                        onHideModal={handleCloseProfile}
                                     />
                                 )}
                                 <div className="icons">
@@ -215,15 +262,19 @@ export const Admin = () => {
                 </Pagination>
             </div>
 
-            {showAppointmentModal && (
+            {showAppointmentModal && selectedUser && (
                 <AppointmentModal
-                    showAppointments={showAppointmentModal}
-                    onHideAppointments={closeAppointmentModal}
+                    show={showAppointmentModal} 
+                    onHide={closeAppointmentModal}  
                     appointmentData={appointmentData}
                     setAppointmentData={setAppointmentData}
                     onSave={handleCreateAppointment}
-                    modalType="create"
+                    services={services}
+                    modalType="list"
                     appointments={selectedUser?.appointment || []}
+                    user={selectedUser}
+                    onReload={reloadAppointments}
+                    token={token}
                 />
             )}
         </div>

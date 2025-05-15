@@ -5,10 +5,10 @@ import { Home } from "../Home/Home";
 import { Login } from "../Login/Login";
 // import { Menu } from "../Menu/Menu";
 import { Profile } from "../Profile/Profile";
-// import { Appointment } from "../Appointment/Appointment"
-// import { Dates } from "../MeDates/MeDates"
+import { Dates } from "../userDates/userDates"
 import { AdminAppointment } from "../Appointment/Appointment";
 import { Treatments } from "../Treatment/Treatment";
+import { CreateDate } from "../CreateDate/CreateDate"
 
 
 //--------------------------------------------------------------
@@ -24,10 +24,10 @@ export const Body = () => {
                 <Route path="/admin" element={<Admin />} />
                 {/* <Route path="/menu" element={<Menu />} /> */}
                 <Route path="/profile" element={<Profile />} />
-                {/* <Route path="/appointment" element={<Appointment />} /> */}
+                <Route path="/create" element={<CreateDate />} />
                 <Route path="/appointment" element={<AdminAppointment />} />
                 <Route path="/treatments" element={<Treatments />} />
-                {/* <Route path="/medates" element={<Dates />} /> */}
+                <Route path="/medates" element={<Dates />} />
             </Routes>
         </>
     )

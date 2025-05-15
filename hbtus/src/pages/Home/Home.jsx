@@ -2,13 +2,15 @@ import "./Home.css"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+//-----------------------------------------------------
+
 export const Home = () => {
 
 
     return (
         <>
       <Card className="tarjetaHome" border="info" 
-      style={{ width: '90%',maxWidth: '55rem', maxHeighth: '48rem', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: '2rem' }}>
+      style={{ width: '100%',maxWidth: '55rem', maxHeighth: '48rem', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: '2rem' }}>
         <Card.Header><h1 className="titulo">Haz Brillar tu ser</h1></Card.Header>
         <Card.Body>
           <Card.Title><h3 className="advertencia">INFORMACION IMPORTANTE</h3></Card.Title>

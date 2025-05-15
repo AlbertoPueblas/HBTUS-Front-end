@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
 import { newRegister } from "../../services/apiCalls"
 import Image from 'react-bootstrap/Image';
-import MPImage from"./../../../public/images/metatron.png"
+import MPImage from"../../images/metatron.png"
 
 //------------------------------------------------------------------------------
 

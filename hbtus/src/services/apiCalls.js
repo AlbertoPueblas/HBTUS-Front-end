@@ -19,6 +19,8 @@ export const appointmentCreate = async(appCreate, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
+  console.log("API",appCreate, token);
+  
   const res = await axios.post(`${API_URL}appointment/create`,appCreate, config);
   return res
 }
@@ -29,7 +31,7 @@ export const bringDates = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const res = await axios.get(`${API_URL}user/appointment`, config)
+    const res = await axios.get(`${API_URL}appointment/dates`, config)
     return res.data
 }
 
@@ -39,7 +41,7 @@ export const bringAllTreatments = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  return axios.get(`${API_URL}treatment/allTreatment`, config)
+  return axios.get(`${API_URL}service/allServices`, config)
 }
 
 export const desactiveProfile = async (active, token) => {
@@ -77,7 +79,7 @@ export const meProfile = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const res = await axios.get(`${API_URL}user/profile`, config)
+  const res = await axios.get(`${API_URL}users/profile`, config)
   return res.data
 }
 
@@ -106,7 +108,7 @@ export const updateProfile = async (profileData, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const res = await axios.put(`${API_URL}user/putProfile`, profileData, config)
+  const res = await axios.put(`${API_URL}users/profile`, profileData, config)
   return res
 }
 
@@ -162,6 +164,7 @@ export const desactiveUser = async (id, token) => {
 }
 
 export const deleteAppointmentByAdmin = async (id, token) => {
+
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -218,14 +221,15 @@ export const restoreUser = async (id, token) => {
   return axios.put(`${API_URL}users/restore/${id}`,{},  config)
 }
 export const createAppointmentByAdmin = async (appointmentData, token) => {
-  const { id } = appointmentData;
+  const { userId } = appointmentData;
+
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
   
-  return axios.post(`${API_URL}appointment/create/${id}`,appointmentData,  config)
+  return axios.post(`${API_URL}appointment/createDate/${userId}`,appointmentData,  config)
 };
 
 export const updateAppointmentByAdmin = async (appointmentData, token) => {
@@ -237,3 +241,19 @@ export const updateAppointmentByAdmin = async (appointmentData, token) => {
   }
   return axios.put(`${API_URL}appointment/modifyApp/${id}`,appointmentData,  config)
 };
+
+export const getDatesUsersByAdmin = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}users/dates/${id}`, config);
+    return response; 
+  } catch (error) {
+   
+    throw error;
+  }
+}

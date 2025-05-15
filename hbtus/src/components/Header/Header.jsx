@@ -75,7 +75,7 @@ function Header() {
                   <IoCalendarOutline
                     className='iconNav'
                     onClick={() => {
-                      navigate("/appointment");
+                      navigate("/meDates");
                     }} />
                 )}
                   {<IoImageOutline

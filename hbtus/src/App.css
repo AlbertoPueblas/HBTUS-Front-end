@@ -1,5 +1,5 @@
 #root {
-  width: 100vw;
+  width: 100%;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -43,7 +43,7 @@
   color: #888;
 }
 body {
-  background-image: url('/images/fondo.jpeg');
+  background-image: url('/src/images/fondo.jpeg');
       background-repeat: no-repeat;
           background-size: cover;
     background-position: center;

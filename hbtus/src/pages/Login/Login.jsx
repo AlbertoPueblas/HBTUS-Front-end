@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../app/slice/userSlice";
 import { decodeToken } from "react-jwt";
 import { Link } from 'react-router-dom';
-import Metatron from "/images/metatron.png"
+import Metatron from "../../images/metatron.png"
 import { ToastContainer, toast } from 'react-toastify';
 
 //---------------------------------------------------------------------------------

@@ -10,13 +10,14 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
-// import Memodal from '../../components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 // import Delete from "../../components/ModalAlert/ModalAlert";
 //Iconos
 import { FcPlus } from "react-icons/fc";
 import { IoCalendarSharp, IoHomeOutline } from "react-icons/io5";
-import  Icon  from "/images/metatron.png";
+import  Icon  from "../../images/metatron.png";
+import ModalProfile from "../../components/ModalProfile/ModalProfile";
+import AppointmentModal from "../../components/AppointmentModal/AppointmentModal";
 
 //--------------------------------------------------------
 
@@ -48,7 +49,8 @@ export const Profile = () => {
             const myProfileData = await meProfile(token);
             setProfileData(myProfileData);
             const res = await bringDates(token);
-            setUserData(res.clientDates);
+            setUserData(res.user);
+            
         };
         fetchDataAndProfile();
     }, [token || ""]);
@@ -86,10 +88,10 @@ export const Profile = () => {
                                 <div className="profile">
                                     <div className={userType === "User" ? "modify-left" : "modify-center"}>
 
-                                        {/* <Memodal
+                                        <AppointmentModal
                                             profileData={profileData}
                                             inputHandler={inputHandler}
-                                            token={token} /> */}
+                                            token={token} />
                                     </div>
 
                                     <div className="delet">
@@ -97,7 +99,7 @@ export const Profile = () => {
                                             <>
                                             <Delete
                                                 profileData={profileData}
-                                                // inputHandler={inputHandler}
+                                                inputHandler={inputHandler}
                                                 token={token}
                                                 />
                                                 </>
@@ -105,7 +107,6 @@ export const Profile = () => {
                                         ) : (
                                             null
                                         )}
-
                                     </div>
                                 </div>
                             </Col>
