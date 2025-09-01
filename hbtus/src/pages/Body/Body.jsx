@@ -9,7 +9,7 @@ import { Dates } from "../userDates/userDates"
 import { AdminAppointment } from "../Appointment/Appointment";
 import { Treatments } from "../Treatment/Treatment";
 import { CreateDate } from "../CreateDate/CreateDate"
-import HistoryPage from "../History/history";
+import HistoryPage from "../History/History";
 import { Menu } from "../Menu/Menu";
 
 
