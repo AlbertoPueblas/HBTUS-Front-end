@@ -140,7 +140,7 @@ const handleInputChange = (e) => {
           onChange={handleInputChange}
           className="form-control"
         >
-          <option value="">Selecciona un tratamiento</option>
+          <option value="">Selecciona un tratamiento</option> 
           {servicesArray && servicesArray.map(t => (
             <option key={t.id} value={t.id}>
               {t.service} - {t.price}€

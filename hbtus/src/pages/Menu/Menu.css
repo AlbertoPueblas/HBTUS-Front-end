@@ -1,0 +1,18 @@
+.row {
+    row-gap: 1rem;
+}
+
+.cart-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+}
+
+.cart-services .card {
+  min-width: 25rem;
+  min-height: 20rem;
+}

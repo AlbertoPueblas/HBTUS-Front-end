@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
 import Table from 'react-bootstrap/Table';
-import { allUsers, deleteAppointmentByAdmin, deleteUser, restoreUser, desactiveUser, createAppointmentByAdmin, getDatesUsersByAdmin, updateAppointment, allTreatments } from "../../services/apiCalls";
+import { allUsers, deleteAppointmentByAdmin, 
+    deleteUser, restoreUser, desactiveUser, 
+    createAppointmentByAdmin, 
+    getDatesUsersByAdmin, 
+    updateAppointment, 
+    allTreatments 
+} from "../../services/apiCalls";
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import UserCard from "../../components/Card/ModalCard";

@@ -35,14 +35,16 @@ export const bringDates = async (token) => {
     return res.data
 }
 
-export const bringAllTreatments = async (token) => {
+export const bringAllTreatments = async (token, page = 1) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  return axios.get(`${API_URL}service/allServices`, config)
+  return axios.get(`${API_URL}service/allServices?page=${page}`, config)
 }
+
+
 
 export const desactiveProfile = async (active, token) => {
   const config = {
@@ -251,6 +253,50 @@ export const getDatesUsersByAdmin = async (id, token) => {
 
   try {
     const response = await axios.get(`${API_URL}users/dates/${id}`, config);
+    return response; 
+  } catch (error) {
+   
+    throw error;
+  }
+}
+
+export const historyUser = async (id, token) => {
+    const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(`${API_URL}users/userHistory/${id}`, config);
+    return response; 
+}
+
+export const updateUserHistory = async (historyId, note, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const body = { note };
+
+  const response = await axios.put(
+    `${API_URL}users/updateHistory/${historyId}`,
+    body,
+    config
+  );
+
+  return response;
+};
+
+export const getUserById = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}users/user/${id}`, config);
     return response; 
   } catch (error) {
    

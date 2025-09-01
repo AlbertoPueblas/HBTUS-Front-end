@@ -9,8 +9,9 @@ import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
 import { newRegister } from "../../services/apiCalls"
 import Image from 'react-bootstrap/Image';
-import MPImage from"../../images/metatron.png"
-
+import MPImage from "../../images/metatron.png"
+import Privacity from '../../components/ModalPrivacity/ModalPrivacity';
+import { toast } from 'react-toastify';
 //------------------------------------------------------------------------------
 
 export const Register = () => {
@@ -24,20 +25,10 @@ export const Register = () => {
         password: ""
     })
 
-    const[registerTime, setRegisterTime] = useState(null)
+    const [registerTime, setRegisterTime] = useState(null)
+    const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
+    const [showPrivacy, setShowPrivacy] = useState(false);
 
-    // Muestra mensajes de error
-    const showToast = (message, backgroundColor = "#f44336") => {
-        Toastify({
-            text: message,
-            duration: 2000, // Duración 2 seg
-            close: true, // Mostrar botón de cierre
-            gravity: "top", // Posición del toast
-            position: "center", // Alineación del toast
-            backgroundColor: backgroundColor, // Color de fondo
-            stopOnFocus: true, // Mantener el toast mientras esté enfocado
-        }).showToast();
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -57,23 +48,22 @@ export const Register = () => {
             const res = await newRegister(credentials);
 
             if (res.data && res.data.email) {
-                showToast("Register successfully.");
+                toast.success("Registro completado.");
                 setTimeout(() => {
                     navigate("/home");
                 }, 1000);
             } else {
-                showToast(res.data.message ||  "#4caf50", "User is Deactivated");
+                toast.success(res.data.message || "#4caf50", "Usuario desactivado");
                 setTimeout(() => {
                     navigate("/home")
                 }, 1000)
             }
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message === "Email already exists") {
-                showToast("Error to register, please try again");
+                toast.error("Error al registrar, prueba de nuevo");
             } else {
-                showToast("Email is already registered");
+                toast.error("Email ya registrado");
             }
-            showToast("Error to register");
         }
     };
 
@@ -81,9 +71,9 @@ export const Register = () => {
         try {
             const response = await activeUser(id, token);
             navigate("/home")
-            
+
         } catch (error) {
-            
+
         }
     }
 
@@ -94,11 +84,12 @@ export const Register = () => {
         }));
     };
 
+
     return (
         <>
             <Container className="my-4">
                 <Card className='card'>
-                    <h4>Register</h4>
+                    <h4>Registrate</h4>
                     <Card.Body>
                         <Row>
                             <Col xs={12} md={4}>
@@ -108,7 +99,7 @@ export const Register = () => {
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Row className="mb-3">
                                         <Form.Group as={Col} sm="12" md="4" controlId="validationCustom1">
-                                            <Form.Label>First name</Form.Label>
+                                            <Form.Label>Nombre</Form.Label>
                                             <Form.Control
                                                 name="firstName"
                                                 required
@@ -117,7 +108,7 @@ export const Register = () => {
                                                 value={credentials.firstName}
                                                 onChange={inputHandler}
                                             />
-                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                            <Form.Control.Feedback>Todo correcto!</Form.Control.Feedback>
                                         </Form.Group>
                                         <Form.Group as={Col} sm="12" md="4" controlId="validationCustomUsername">
                                             <Form.Label>Email</Form.Label>
@@ -133,12 +124,12 @@ export const Register = () => {
                                                     onChange={inputHandler}
                                                 />
                                                 <Form.Control.Feedback type="invalid">
-                                                    Please provide a valid email.
+                                                    Por favor, introduzca un email válido.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
                                         </Form.Group>
                                         <Form.Group as={Col} sm="12" md="4" controlId="validationCustom2">
-                                            <Form.Label>Password</Form.Label>
+                                            <Form.Label>Contraseña</Form.Label>
                                             <Form.Control
                                                 name="password"
                                                 required
@@ -147,24 +138,47 @@ export const Register = () => {
                                                 value={credentials.password}
                                                 onChange={inputHandler}
                                             />
-                                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                            <Form.Control.Feedback>Todo correcto!</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid">
+                                                Laa contraseña debe contener al menos 8 caracteres.
+                                            </Form.Control.Feedback>
                                         </Form.Group>
                                     </Row>
                                     <Form.Group className="mb-3">
                                         <Form.Check
                                             required
-                                            label="Agree to terms and conditions"
-                                            feedback="You must agree before submitting."
-                                            feedbackType="invalid"
+                                            checked={acceptedPrivacy}
+                                            onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                                            label={
+                                                <>
+                                                    Acepto la{" "}
+                                                    <Button
+                                                        variant="link"
+                                                        className="p-0 align-baseline"
+                                                        onClick={() => setShowPrivacy(true)}
+                                                    >
+                                                        Política de Privacidad
+                                                    </Button>
+                                                </>
+                                            }
                                         />
                                     </Form.Group>
-                                    <Button type="submit">Register me</Button>
+                                    <Button type="submit">Registrame</Button>
                                 </Form>
                             </Col>
                         </Row>
                     </Card.Body>
                 </Card>
             </Container>
+            <Privacity
+                show={showPrivacy}
+                onHide={() => setShowPrivacy(false)}
+                onAccept={() => {
+                    setAcceptedPrivacy(true);
+                    setShowPrivacy(false);
+                }}
+            />
+
         </>
     );
 }

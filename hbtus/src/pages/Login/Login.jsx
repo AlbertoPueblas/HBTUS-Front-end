@@ -37,6 +37,7 @@ export const Login = () => {
     });
 
     const handleSubmit = async (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.stopPropagation();
@@ -84,16 +85,12 @@ console.log("Rol del usuario:", passport.decoded.userRole);
             }
         } catch (error) {
             console.log("error", error);
-            if (error.response.data.isActive === false) {
+            if (error.response?.data?.isActive === false) {
                 toast.warning("Tu cuenta no está activa, contacta al administrador");
             }
             toast.error("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }
     };
-
-
-
-    const notify = () => toast("Wow so easy!");
 
     return (
         <>
@@ -105,7 +102,7 @@ console.log("Rol del usuario:", passport.decoded.userRole);
                                 <Image src={Metatron} width={200} roundedCircle />
                             </Col>
                             <Col xs={12} md={8}>
-                                <h1>Login</h1>
+                                <h1>Iniciar sesion</h1>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Form.Group controlId="validationCustomUsername" >
                                         <Form.Label>Email</Form.Label>
@@ -123,12 +120,12 @@ console.log("Rol del usuario:", passport.decoded.userRole);
                                                 isValid={isValid.email}
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                Please provide a valid email.
+                                                Credenciales incorrectas.
                                             </Form.Control.Feedback>
                                         </InputGroup>
                                     </Form.Group>
                                     <Form.Group controlId="validationCustom02">
-                                        <Form.Label>Password</Form.Label>
+                                        <Form.Label>Contraseña</Form.Label>
                                         <Form.Control
                                             className="input"
                                             name="password"
@@ -140,7 +137,7 @@ console.log("Rol del usuario:", passport.decoded.userRole);
                                             isValid={isValid.password}
                                         />
                                         <h6>Aún no estas registrado? Registrate <Link to="/register">aqui</Link></h6>
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        <Form.Control.Feedback>Todo correcto!</Form.Control.Feedback>
                                     </Form.Group>
                                     <Button
                                         type="submit"

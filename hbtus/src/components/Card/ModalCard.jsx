@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { getUserData } from '../../app/slice/userSlice';
+import { useNavigate } from 'react-router-dom';
+
+//----------------------------------------------------------------
 
 function UserCard({
     user = {},
@@ -21,7 +24,7 @@ function UserCard({
     const [editedDate, setEditedDate] = useState('');
     const [editedServiceId, setEditedServiceId] = useState('');
     const [profileData, setProfileData] = useState(user);
-
+    const navigate = useNavigate();
     const userReduxData = useSelector(getUserData) || {};
     const userType = userReduxData?.decoded?.userRole;
 
@@ -54,6 +57,9 @@ function UserCard({
             onHideModal(); // <-- Cerrar modal tras borrar
         }
     };
+      const goToHistory = () => {
+    navigate('/histories', { state: { userId: user.id } });
+  };
 
     return (
         <>
@@ -96,7 +102,7 @@ function UserCard({
                     </Button>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" >Historial</Button>
+                    <Button variant="primary" onClick={goToHistory} >Historial</Button>
                     <Button variant="secondary" onClick={onHideModal}>Cerrar</Button>
                 </Modal.Footer>
             </Modal>

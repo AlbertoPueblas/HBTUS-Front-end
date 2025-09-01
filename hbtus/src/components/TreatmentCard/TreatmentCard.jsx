@@ -35,11 +35,11 @@ function TreatmentModal({ show, onHide, treatmentData, setTreatmentData, onSave,
                 <Form>
                     <Form.Group controlId="formTreatmentName">
                         <Form.Label>
-                            {modalType === 'create' ? 'Treatment Name' : 'Nombre del Tratamiento'}
+                            {modalType === 'create' ? 'Nombre del servicio' : 'Nombre del Tratamiento'}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder={modalType === 'create' ? 'Enter treatment name' : 'Introduce el nombre del tratamiento'}
+                            placeholder={modalType === 'create' ? 'Añade el nombre' : 'Introduce el nombre del tratamiento'}
                             name="service"
                             value={treatmentData.service}
                             onChange={handleInputChange}
@@ -47,16 +47,43 @@ function TreatmentModal({ show, onHide, treatmentData, setTreatmentData, onSave,
                     </Form.Group>
                     <Form.Group controlId="formTreatmentPrice" className="mt-3">
                         <Form.Label>
-                            {modalType === 'create' ? 'Treatment Price' : 'Precio del Tratamiento'}
+                            {modalType === 'create' ? 'Precio' : 'Precio del Tratamiento'}
                         </Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder={modalType === 'create' ? 'Enter treatment price' : 'Introduce el precio del tratamiento'}
+                            placeholder={modalType === 'create' ? 'precio' : 'Introduce el precio del tratamiento'}
                             name="price"
                             value={treatmentData.price}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
+                    <Form.Group controlId="formTreatmentLongDescription" className="mt-3">
+                        <Form.Label>
+                            {modalType === 'create' ? 'Descripción del servicio completa' : 'Descripción del tratamiento completo'}
+                        </Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={4}
+                            placeholder="Introduce una descripción completa"
+                            name="longDescription"
+                            value={treatmentData.longDescription || ""}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+                     <Form.Group controlId="formTreatmentDescription" className="mt-3">
+                        <Form.Label>
+                            {modalType === 'create' ? 'Descripción del servicio' : 'Descripción del tratamiento'}
+                        </Form.Label>
+                        <Form.Control
+                            tyoe="text"
+                            rows={4}
+                            placeholder="Introduce una descripción"
+                            name="description"
+                            value={treatmentData.description || ""}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+
 
                     {/* Mostrar las citas del cliente */}
                     {appointments && appointments.length > 0 && (

@@ -9,6 +9,8 @@ import { Dates } from "../userDates/userDates"
 import { AdminAppointment } from "../Appointment/Appointment";
 import { Treatments } from "../Treatment/Treatment";
 import { CreateDate } from "../CreateDate/CreateDate"
+import HistoryPage from "../History/history";
+import { Menu } from "../Menu/Menu";
 
 
 //--------------------------------------------------------------
@@ -22,12 +24,13 @@ export const Body = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin" element={<Admin />} />
-                {/* <Route path="/menu" element={<Menu />} /> */}
+                <Route path="/menu" element={<Menu />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/create" element={<CreateDate />} />
                 <Route path="/appointment" element={<AdminAppointment />} />
                 <Route path="/treatments" element={<Treatments />} />
                 <Route path="/medates" element={<Dates />} />
+                <Route path="/histories" element={<HistoryPage />} />
             </Routes>
         </>
     )

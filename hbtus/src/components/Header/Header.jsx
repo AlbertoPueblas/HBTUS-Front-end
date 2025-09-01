@@ -24,10 +24,10 @@ function Header() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch();
-  const logOutMe = () => {
-    dispatch(logout())
-    toast.success("You have been logged out, come back soon","rgb(6, 108, 204)")
-  }
+const logOutMe = () => {
+  dispatch(logout());
+  window.location.href = "/login";
+};
 
   return (
     <Navbar expand="lg" className="navBar">
@@ -50,8 +50,18 @@ function Header() {
         <Dropdown.Item href="/admin">Usuarios</Dropdown.Item>
         <Dropdown.Item href="/appointment">Citas</Dropdown.Item>
         <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
-          <NavDropdown.Divider />
-                {token && <Nav.Link href="/profile">Profile</Nav.Link>}
+        <NavDropdown.Divider />
+        {<IoImageOutline
+                  className='iconNav'
+                  onClick={() => {
+                    navigate("/menu");
+                  }} />}
+                {token && <IoPersonOutline
+                  className='iconNav'
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                />}
       </DropdownButton>
     </ButtonGroup>
 

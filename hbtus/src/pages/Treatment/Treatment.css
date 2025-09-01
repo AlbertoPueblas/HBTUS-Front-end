@@ -1,0 +1,24 @@
+.description {
+    max-width: 20rem;
+}
+.expanded-description {
+    scrollbar-width: none;
+    max-width: 50rem;         /* Limita el ancho */
+    max-height: 50rem;        /* Opcional: también limita la altura */
+    overflow: auto;           /* Scroll si se desborda */
+    white-space: pre-wrap;    /* Mantiene saltos de línea si los hay */
+    word-wrap: break-word;
+    padding: 4px 0;
+}
+
+.see-more-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1.2rem;
+}
+
+.see-more-btn {
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #007bff;
+}

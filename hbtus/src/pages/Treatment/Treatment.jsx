@@ -10,7 +10,7 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import "./Treatment.css"
 import { toast } from "react-toastify";
 import TreatmentModal from "../../components/TreatmentCard/TreatmentCard";
-
+import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
 
 //-------------------------------------------------------------------------------------
 
@@ -22,14 +22,12 @@ export const Treatments = () => {
         Service: "",
         price: ""
     });
-
+    const [expandedRows, setExpandedRows] = useState([]);
     const [deleteSuccess, setDeleteSuccess] = useState(false);
-
-    const itemsPerPage = 10;
-
     // Paginación
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const itemsPerPage = 10;
 
     const userReduxData = useSelector(getUserData);
     const token = userReduxData.token;
@@ -39,7 +37,7 @@ export const Treatments = () => {
             try {
                 const res = await allTreatments(token, currentPage);
                 setServices(res.data.services);
-                
+
                 setTotalPages(res.data.total_pages);
             } catch (error) {
                 toast.error(error);
@@ -71,12 +69,12 @@ export const Treatments = () => {
                 ...treatmentData,
                 price: Number(treatmentData.price)
             };
-    
+
             await createTreatment(newTreatmentData, token);
             toast.success("El tratamiento ha sido creado");
             setShowCreate(false);
             setTreatmentData({ service: "", price: "" });
-    
+
             const res = await allTreatments(token, currentPage);
             setServices(res.data.services);
         } catch (error) {
@@ -84,7 +82,7 @@ export const Treatments = () => {
             toast.error("Fallo al crear el tratamiento");
         }
     };
-    
+
 
     const handleModifyTreatment = async () => {
         try {
@@ -92,13 +90,13 @@ export const Treatments = () => {
                 ...treatmentData,
                 price: Number(treatmentData.price),
             };
-    
+
             await modifyTreatment(updatedTreatment, token);
-    
+
             toast.success("El tratamiento ha sido modificado", "#4caf50");
             setShowModify(false);
             setTreatmentData({ service: "", price: "" });
-    
+
             // Aquí llamas a allTreatments para refrescar los datos
             const res = await allTreatments(token, currentPage);
             setServices(res.data.services);
@@ -106,7 +104,7 @@ export const Treatments = () => {
             toast.error("Fallo al modificar el tratamiento");
         }
     };
-    
+
     const handleDeleteTreatment = async (id) => {
         if (window.confirm("Estás seguro de borrar el tratamiento")) {
             try {
@@ -139,6 +137,15 @@ export const Treatments = () => {
         setTotalPages(page)
     };
 
+    const toggleRowExpansion = (id) => {
+        setExpandedRows((prev) =>
+            prev.includes(id)
+                ? prev.filter(rowId => rowId !== id)
+                : [...prev, id]
+        );
+    };
+
+
     return (
         <div className="table-responsive">
             <h3>Servicios</h3>
@@ -149,8 +156,9 @@ export const Treatments = () => {
                         <th>Servicio
                             <FcPlus className="cita"
                                 onClick={handleShowCreate} />
-
                         </th>
+                        <th>Descripcion</th>
+                        <th>Descripcion completa</th>
                         <th>Precio</th>
                         <th>Acciones</th>
                     </tr>
@@ -160,6 +168,31 @@ export const Treatments = () => {
                         <tr key={t.id}>
                             <td>{t.id}</td>
                             <td>{t.service}</td>
+                            <td>{t.description}</td>
+                            <td className="description">
+                                {expandedRows.includes(t.id)
+                                    ? (
+                                        <div className="expanded-description">
+                                            {t.longDescription}
+                                            <div className="see-more-container">
+                                                <CgArrowUpO className="see-more-btn" onClick={() => toggleRowExpansion(t.id)} title="Ver menos" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {t.longDescription?.slice(0, 60)}{t.longDescription?.length > 100 && "..."}
+                                            {t.longDescription?.length > 60 && (
+                                                <div className="see-more-container">
+                                                    <CgArrowDownO className="see-more-btn" onClick={() => toggleRowExpansion(t.id)} title="Ver más" />
+                                                </div>
+                                            )}
+                                        </>
+                                    )
+
+
+                                }
+                            </td>
+
                             <td>{t.price} €</td>
                             <td >
                                 <FiSettings className="setings"
@@ -183,7 +216,7 @@ export const Treatments = () => {
                 setTreatmentData={setTreatmentData}
                 onCreate={handleCreateTreatment}
                 onSave={handleCreateTreatment}
-                 modalType="create"
+                modalType="create"
             />
             <TreatmentModal
                 show={showModify}

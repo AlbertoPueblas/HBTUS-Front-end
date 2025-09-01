@@ -1,67 +1,72 @@
-// import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Card from 'react-bootstrap/Card';
 import "./Menu.css"
-// import INTRO from "/Images/intro.jpg"
-// import P from "/Images/p.jpg"
-// import P1 from "/Images/p1.jpg"
-// import P2 from "/Images/p2.jpg"
-// import P3 from "/Images/p3.jpg"
-// import P4 from "/Images/p4.jpg"
-// import P5 from "/Images/p5.jpg"
-// import P6 from "/Images/p6.jpg"
-// import P7 from "/Images/p7.jpg"
-// import P8 from "/Images/p8.jpg"
-// import P9 from "/Images/p9.jpg"
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getUserData } from "../../app/slice/userSlice";
+import { toast } from 'react-toastify';
+import { bringAllTreatments } from '../../services/apiCalls';
+import { Accordion } from 'react-bootstrap';
+
 //-----------------------------------------------------------------------------
 
 export const Menu = () => {
+
+    const [services, setServices] = useState([]);
+    // Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const userReduxData = useSelector(getUserData);
+    const token = userReduxData.token;
+
+
+
+    useEffect(() => {
+        console.log("Token:", token);
+        const fetchTreatments = async () => {
+            try {
+                const res = await bringAllTreatments(token, currentPage);
+                setServices(res.data.services);
+                console.log(res.data.services);
+                
+                setTotalPages(res.data.total_pages);
+            } catch (error) {
+                toast.error(error.response?.data?.message || "Error al cargar los servicios");
+            }
+        };
+        if (token) fetchTreatments();
+    }, [currentPage, token]);
+
+
     return (
         <>
-            {/* <h3><em>Maria Plaza Estilistas<br /> 
-            <h5>Profesionales a su servicio y cuidado.</h5></em></h3>
-            <Carousel fade>
-                <Carousel.Item>
-                    <img src={INTRO} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P} text="Second slide" />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P1} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P2} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P3} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P4} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P5} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P6} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P7} />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P8} className='imagen' />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={P9} />
-                </Carousel.Item>
-            </Carousel> */}
-            <div className="card1">
+        <div className="container cart-services">
+      <div className="row">
+        {services.map((service, index) => (
+          <div className="col-md-4 mb-4" key={service.id}>
+            <Card border="primary" className="h-100 d-flex flex-column">
+              <Card.Header>{service.service || "Servicio"}</Card.Header>
 
-                <h5><em><b>En María Plaza estilistas creemos firmemente en que tu imagen forma parte de tu seguridad y personalidad.
-                    Por ello siempre ofrecemos un trato único y personal, para que tu experiencia siempre sea lo más positiva posible.
-                    Ofreciéndote siempre la mayor calidad en nuestros productos para el cuidado de tu imagen con la garantía de contar
-                    con profesionales altamente cualificados, para que tu experiencia y tu confianza en nuestros esté al nivel de nuestra
-                    profesionalidad.</b></em></h5>
-            </div>
+              <Card.Body className="flex-grow-1">
+                <Card.Text style={{ minHeight: "80px" }}>
+                  {service.description?.slice(0, 100) || "Sin descripción"}
+                </Card.Text>
+              </Card.Body>
+
+              <Accordion flush>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Ver más detalles</Accordion.Header>
+                  <Accordion.Body>
+                    <p><strong>Descripción completa:</strong><br />{service.longDescription || "No disponible"}</p>
+                    <p><strong>Precio:</strong> {service.price} €</p>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </Card>
+          </div>
+        ))}
+      </div>
+    </div>
         </>
     )
 }
