@@ -120,7 +120,7 @@ console.log("Rol del usuario:", passport.decoded.userRole);
                                                 isValid={isValid.email}
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                Credenciales incorrectas.
+                                                Credenciales incorrectas .
                                             </Form.Control.Feedback>
                                         </InputGroup>
                                     </Form.Group>
