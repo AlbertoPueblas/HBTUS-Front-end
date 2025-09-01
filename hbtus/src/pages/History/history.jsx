@@ -4,7 +4,6 @@ import { getUserById, historyUser, updateUserHistory } from '../../services/apiC
 import { useSelector } from 'react-redux';
 import { getUserData } from '../../app/slice/userSlice';
 import './History.css';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Button } from 'react-bootstrap';
