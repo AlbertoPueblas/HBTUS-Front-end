@@ -3,8 +3,7 @@ import axios from "axios"
 //---------------------------------------------
 
 // const API_URL = "http://localhost:3000/api/";
-// const API_URL = import.meta.env.VITE_BACKEND_URL + "api/";
-const API_URL = "hbtu-bbdd-production.up.railway.app"
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const activeProfile = async (active, token) => {
   const config = {
