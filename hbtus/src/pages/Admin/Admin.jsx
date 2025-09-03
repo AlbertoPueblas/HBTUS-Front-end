@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { FcCancel, FcPlanner } from "react-icons/fc";
 import AppointmentModal from "../../components/AppointmentModal/AppointmentModal";
 import { CgProfile } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
     const [users, setUsers] = useState([]);
