@@ -128,13 +128,13 @@ export const allAppointments = async (token, page = 1, limit = 15) => {
   return axios.get(`${API_URL}appointment/totalDates?page=${page}&limit${limit}`, config);
 }
 
-export const allTreatments = async (token, page = 1, limit = 15) => {
+export const allTreatments = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axios.get(`${API_URL}service/services?page=${page}&limit=${limit}`, config);
+  return axios.get(`${API_URL}service/services`, config);
 }
 
 export const allUsers = async (token, page = 1, limit =15) => {
