@@ -91,7 +91,9 @@ export const newRegister = async (credentials) => {
 }
 
 export const loginCall = async (credentials) => {
-    const res = await axios.post(`${API_URL}auth/login`, credentials);
+    const res = await axios.post(`${API_URL}auth/login`, credentials, {
+      withCredentials:true,
+    });
     return res
 };
 
