@@ -68,10 +68,10 @@ export const Login = () => {
                 toast.success("Inicio de sesión exitoso");
                 setTimeout(() => {
                     // const userRole = passport.decoded.userRole;
-                    if (uDecoded?.userRole === "Admin") {
+                    if (uDecoded === "Admin") {
 
                         navigate("/admin");
-                    } else if (uDecoded?.userRole === "Clients") {
+                    } else if (uDecoded === "Clients") {
                         navigate("/menu");
                     }
                 }, 1000);
