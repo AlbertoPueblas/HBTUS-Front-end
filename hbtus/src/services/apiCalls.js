@@ -136,7 +136,7 @@ export const allTreatments = async (token, page = 1, limit = 15) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axios.get(`${API_URL}service/services?page=${page}&limit${limit}`, config);
+  return axios.get(`${API_URL}service/services?page=${page}&limit=${limit}`, config);
 }
 
 export const allUsers = async (token, page = 1, limit =15) => {
