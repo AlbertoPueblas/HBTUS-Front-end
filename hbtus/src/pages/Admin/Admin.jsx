@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import { FcCancel, FcPlanner } from "react-icons/fc";
 import AppointmentModal from "../../components/AppointmentModal/AppointmentModal";
 import { CgProfile } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
     const [users, setUsers] = useState([]);
@@ -33,17 +32,7 @@ export const Admin = () => {
 
     const userReduxData = useSelector(getUserData);
     const token = userReduxData.token;
-    const userType = userReduxData?.decoded?.userRole || null;
-
-    const navigate = useNavigate();
-
-  // ✅ 1. Control de acceso
-  useEffect(() => {
-    if (userType && userType !== "Admin") {
-      toast.error("Acceso denegado");
-      navigate("/"); // o /login
-    }
-  }, [userType, navigate]);
+    const userType = userReduxData.decoded.userRole;
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -56,7 +45,7 @@ export const Admin = () => {
                 setUsers(fetchedUsers);
                 setTotalPages(res.data.total_pages);
             } catch (error) {
-                toast.error(error.message || "Error al cargar");
+                toast.error(error.message || "Error fetching users");
             }
         };
         fetchUsers();

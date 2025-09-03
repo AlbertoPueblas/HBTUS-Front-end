@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: "",
-  decodificado: {
+  decoded: {
     id: "",
     userId: "",
     name: "",
@@ -17,20 +17,20 @@ export const userSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.token = action.payload.token || "";
-      state.decodificado = action.payload.decodificado || initialState.decodificado;
+      state.decoded = action.payload.decoded || initialState.decoded;
     },
     logout: (state) => {
       state.token = "";
-      state.decodificado = { ...initialState.decodificado };
+      state.decoded = { ...initialState.decoded };
     },
     setUserDetails: (state, action) => {
-      state.decodificado = action.payload;
+      state.decoded = action.payload;
     },
     setUser: (state, action) => {
-      state.decodificado.id = action.payload;
+      state.decoded.id = action.payload;
     },
     setUserId: (state, action) => {
-      state.decodificado.userId = action.payload;
+      state.decoded.userId = action.payload;
     },
   },
 });
