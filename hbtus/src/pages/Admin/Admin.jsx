@@ -35,7 +35,7 @@ export const Admin = () => {
     const token = userReduxData.token;
     const userType = userReduxData?.decoded?.userRole || null;
 
-const navigate = useNavigate();
+    const navigate = useNavigate();
 
   // ✅ 1. Control de acceso
   useEffect(() => {
@@ -45,41 +45,34 @@ const navigate = useNavigate();
     }
   }, [userType, navigate]);
 
-  // ✅ 2. Cargar usuarios SOLO si es Admin
-  useEffect(() => {
-    if (userType === "Admin" && token) {
-      const fetchUsers = async () => {
-        try {
-          const res = await allUsers(token, currentPage);
-          let fetchedUsers = res.data.users.map(user => ({
-            ...user,
-            appointment: user.appointment || [],
-          }));
-          setUsers(fetchedUsers);
-          setTotalPages(res.data.total_pages);
-        } catch (error) {
-          toast.error(error.message || "Error fetching users");
-        }
-      };
-      fetchUsers();
-    }
-  }, [currentPage, token, userType]);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const res = await allUsers(token, currentPage);
+                let fetchedUsers = res.data.users.map(user => ({
+                    ...user,
+                    appointment: user.appointment || []
+                }));
+                setUsers(fetchedUsers);
+                setTotalPages(res.data.total_pages);
+            } catch (error) {
+                toast.error(error.message || "Error al cargar");
+            }
+        };
+        fetchUsers();
+    }, [currentPage, token, stateUser, userType]);
 
-  // ✅ 3. Cargar servicios SOLO si es Admin
-  useEffect(() => {
-    if (userType === "Admin" && token) {
-      const fetchServices = async () => {
-        try {
-          const res = await allTreatments(token);
-          setServices(res.data);
-        } catch (error) {
-          toast.error(error.message || "Error fetching services");
-        }
-      };
-      fetchServices();
+    useEffect(() => {
+  const fetchServices = async () => {
+    try {
+      const res = await allTreatments(token); // función que llame al endpoint de servicios
+      setServices(res.data); // asumiendo que el array viene en res.data
+    } catch (error) {
+      toast.error(error.message || "Error fetching services");
     }
-  }, [token, userType]);
-
+  };
+  fetchServices();
+}, [token]);
 
 
     const handleStateUserSuccessfully = () => {
