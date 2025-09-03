@@ -35,22 +35,13 @@ export const bringDates = async (token) => {
 }
 
 export const bringAllTreatments = async (token, page = 1, limit = 15) => {
-  if (!token) throw new Error("Token no proporcionado");
-
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`, // Enviar token JWT
+      Authorization: `Bearer ${token}`,
     },
-    withCredentials: true, // Muy importante si usas cookies
-  };
-
-  const response = await axios.get(
-    `${API_URL}service/allServices?page=${page}&limit=${limit}`,
-    config
-  );
-
-  return response.data;
-};
+  }
+  return axios.get(`${API_URL}service/allServices?page=${page}&limit=${limit}`, config)
+}
 
 
 
