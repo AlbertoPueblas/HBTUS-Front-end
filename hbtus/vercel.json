@@ -8,7 +8,7 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "https://hbtu-bbdd-production.up.railway.app/api/$1" },
+    { "src": "/api/(.*)", "dest": "https://hbtu-bbdd-production.up.railway.app" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
