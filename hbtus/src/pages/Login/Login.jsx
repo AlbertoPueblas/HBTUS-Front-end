@@ -67,11 +67,11 @@ export const Login = () => {
                 dispatch(login(passport));
                 toast.success("Inicio de sesión exitoso");
                 setTimeout(() => {
-                    // const userRole = passport.decoded.userRole;
-                    if (uDecoded === "Admin") {
+                    const role = uDecoded.userRole;
+                    if (role === "Admin") {
 
                         navigate("/admin");
-                    } else if (uDecoded === "Clients") {
+                    } else if (role === "Clients") {
                         navigate("/menu");
                     }
                 }, 1000);
