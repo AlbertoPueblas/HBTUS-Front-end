@@ -60,6 +60,7 @@ export const Login = () => {
             const res = await loginCall(credentials);
             if (res.data && res.data.token) {
                 const uDecoded = decodeToken(res.data.token);
+                console.log("Decoded token completo:", uDecoded);
                 const passport = {
                     token: res.data.token,
                     decoded: uDecoded,
