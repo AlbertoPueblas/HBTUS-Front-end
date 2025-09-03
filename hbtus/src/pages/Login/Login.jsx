@@ -60,7 +60,6 @@ export const Login = () => {
             const res = await loginCall(credentials);
             if (res.data && res.data.token) {
                 const uDecoded = decodeToken(res.data.token);
-                console.log("Decoded token completo:", uDecoded);
                 const passport = {
                     token: res.data.token,
                     decoded: uDecoded,
@@ -69,10 +68,10 @@ export const Login = () => {
                 toast.success("Inicio de sesión exitoso");
                 setTimeout(() => {
                     const userRole = passport.decoded.userRole;
-                    if (userRole === "Admin") {
+                    if (uDecoded.userRole === "Admin") {
 
                         navigate("/admin");
-                    } else if (userRole === "Clients") {
+                    } else if (uDecoded.userRole === "Clients") {
                         navigate("/menu");
                     }
                 }, 1000);
