@@ -34,13 +34,13 @@ export const bringDates = async (token) => {
     return res.data
 }
 
-export const bringAllTreatments = async (token) => {
+export const bringAllTreatments = async (token, page = 1, limit = 15) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  return axios.get(`${API_URL}service/allServices`, config)
+  return axios.get(`${API_URL}service/allServices?page=${page}&limit=${limit}`, config)
 }
 
 
