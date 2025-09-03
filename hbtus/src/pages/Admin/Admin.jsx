@@ -32,36 +32,53 @@ export const Admin = () => {
 
     const userReduxData = useSelector(getUserData);
     const token = userReduxData.token;
-    const userType = userReduxData.decoded.userRole;
+    const userType = userReduxData?.decoded?.userRole || null;
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const res = await allUsers(token, currentPage);
-                let fetchedUsers = res.data.users.map(user => ({
-                    ...user,
-                    appointment: user.appointment || []
-                }));
-                setUsers(fetchedUsers);
-                setTotalPages(res.data.total_pages);
-            } catch (error) {
-                toast.error(error.message || "Error fetching users");
-            }
-        };
-        fetchUsers();
-    }, [currentPage, token, stateUser, userType]);
+const navigate = useNavigate();
 
-    useEffect(() => {
-  const fetchServices = async () => {
-    try {
-      const res = await allTreatments(token); // función que llame al endpoint de servicios
-      setServices(res.data); // asumiendo que el array viene en res.data
-    } catch (error) {
-      toast.error(error.message || "Error fetching services");
+  // ✅ 1. Control de acceso
+  useEffect(() => {
+    if (userType && userType !== "Admin") {
+      toast.error("Acceso denegado");
+      navigate("/"); // o /login
     }
-  };
-  fetchServices();
-}, [token]);
+  }, [userType, navigate]);
+
+  // ✅ 2. Cargar usuarios SOLO si es Admin
+  useEffect(() => {
+    if (userType === "Admin" && token) {
+      const fetchUsers = async () => {
+        try {
+          const res = await allUsers(token, currentPage);
+          let fetchedUsers = res.data.users.map(user => ({
+            ...user,
+            appointment: user.appointment || [],
+          }));
+          setUsers(fetchedUsers);
+          setTotalPages(res.data.total_pages);
+        } catch (error) {
+          toast.error(error.message || "Error fetching users");
+        }
+      };
+      fetchUsers();
+    }
+  }, [currentPage, token, userType]);
+
+  // ✅ 3. Cargar servicios SOLO si es Admin
+  useEffect(() => {
+    if (userType === "Admin" && token) {
+      const fetchServices = async () => {
+        try {
+          const res = await allTreatments(token);
+          setServices(res.data);
+        } catch (error) {
+          toast.error(error.message || "Error fetching services");
+        }
+      };
+      fetchServices();
+    }
+  }, [token, userType]);
+
 
 
     const handleStateUserSuccessfully = () => {
