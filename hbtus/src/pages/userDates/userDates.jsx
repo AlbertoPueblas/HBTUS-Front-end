@@ -34,13 +34,8 @@ export const Dates = () => {
         const fetchData = async () => {
             const resDates = await bringDates(token);
             setDates(resDates.user.appointment);
-            console.log("Que traes", resDates.user.appointment);
-
-
             const resTreatments = await bringAllTreatments(token);
             setTreatments(resTreatments.data.services || []);
-            console.log(resTreatments.data.services);
-
         };
         fetchData();
     }, [token]);
@@ -53,7 +48,6 @@ export const Dates = () => {
 
     const handleNewTreatment = async (treatmentData) => {
         // Lógica para crear un nuevo tratamiento (POST al backend)
-        console.log("Nuevo tratamiento:", treatmentData);
         // Opcional: actualizar lista de tratamientos
     };
 

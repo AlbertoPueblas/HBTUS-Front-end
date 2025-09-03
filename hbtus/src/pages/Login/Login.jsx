@@ -58,19 +58,14 @@ export const Login = () => {
     const loginMe = async () => {
         try {
             const res = await loginCall(credentials);
-            console.log(res);
             if (res.data && res.data.token) {
                 const uDecoded = decodeToken(res.data.token);
-
                 const passport = {
                     token: res.data.token,
                     decoded: uDecoded,
                 };
                 dispatch(login(passport));
                 toast.success("Inicio de sesión exitoso");
-
-                console.log("Token decodificado:", passport.decoded);
-console.log("Rol del usuario:", passport.decoded.userRole);
                 setTimeout(() => {
                     const userRole = passport.decoded.userRole;
                     if (userRole === "Admin") {
@@ -84,7 +79,6 @@ console.log("Rol del usuario:", passport.decoded.userRole);
                 toast.error("Error al iniciar sesión");
             }
         } catch (error) {
-            console.log("error", error);
             if (error.response?.data?.isActive === false) {
                 toast.warning("Tu cuenta no está activa, contacta al administrador");
             }

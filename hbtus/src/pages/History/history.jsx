@@ -32,8 +32,6 @@ function HistoryPage() {
       try {
         const response = await historyUser(userId, token);
         setUserHistory(response.data);
-        console.log(response.data);
-
       } catch (error) {
         setUserHistory([]);
       }
@@ -54,9 +52,6 @@ function HistoryPage() {
       try {
         const response = await getUserById(userId, token);
         setUserName(`${response.data.firstName} ${response.data.lastName}`);
-
-        console.log("user", response.data);
-
       } catch (error) {
         setUserName([]);
       }

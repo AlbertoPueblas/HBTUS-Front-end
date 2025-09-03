@@ -150,7 +150,6 @@ const handleInputChange = (e) => {
       </div>
     </>
   );
-console.log(services)
   return (
     <Modal show={show} onHide={onHide} backdrop="static" keyboard={false}>
       <Modal.Header closeButton>

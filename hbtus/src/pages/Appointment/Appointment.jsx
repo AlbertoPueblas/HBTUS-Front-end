@@ -45,8 +45,6 @@ export const AdminAppointment = () => {
             try {
                 const res = await allAppointments(token, currentPage);
                 setAppointment(res.data.appointment);
-                console.log(res.data.appointment);
-
                 setTotalPages(res.data.total_pages);
             } catch (error) {
                 showToast(error);
@@ -93,8 +91,6 @@ export const AdminAppointment = () => {
                 </thead>
                 <tbody>
                     {appointment.map((date, index) => (
-                        console.log(date),
-
                         <tr className="rowAppointment" key={index}>
                             <td className="Id">{date.id}</td>
                             <td>{dayjs(date.appointmentDate).format("D MMM  YY - h:mm A")}</td>

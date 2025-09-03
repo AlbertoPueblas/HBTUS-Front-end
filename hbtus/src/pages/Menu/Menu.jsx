@@ -22,13 +22,10 @@ export const Menu = () => {
 
 
     useEffect(() => {
-        console.log("Token:", token);
         const fetchTreatments = async () => {
             try {
                 const res = await bringAllTreatments(token, currentPage);
                 setServices(res.data.services);
-                console.log(res.data.services);
-                
                 setTotalPages(res.data.total_pages);
             } catch (error) {
                 toast.error(error.response?.data?.message || "Error al cargar los servicios");

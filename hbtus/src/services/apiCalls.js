@@ -20,8 +20,6 @@ export const appointmentCreate = async(appCreate, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("API",appCreate, token);
-  
   const res = await axios.post(`${API_URL}appointment/create`,appCreate, config);
   return res
 }
@@ -154,8 +152,6 @@ export const createTreatment = async (treatmentData, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-console.log(treatmentData);
-
   return axios.post(`${API_URL}service/create`, treatmentData, config)
 }
 

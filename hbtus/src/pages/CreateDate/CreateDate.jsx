@@ -62,9 +62,7 @@ export const CreateDate = () => {
 
     try {
         // Asegúrate de convertir la fecha a formato ISO con zona horaria UTC
-        const dateCheck = selectedDateTime.utc().toISOString();  // Convertir a UTC y luego a formato ISO
-        console.log("Fecha y hora para verificar disponibilidad (ISO):", dateCheck);
-
+        const dateCheck = selectedDateTime.utc().toISOString();  // Convertir a UTC y luego a formato IS
         const res = await axios.get("/api/appointments/checkAvailability", {
             params: {
                 appointmentDate: dateCheck,
@@ -108,7 +106,6 @@ export const CreateDate = () => {
       try {
         const resp = await bringAllTreatments(token);
         setTreatments(resp.data.services);
-        console.log(resp.data);
       } catch (error) {
         setError("Error al traer datos");
       }
