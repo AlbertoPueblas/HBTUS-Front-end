@@ -13,7 +13,15 @@ export const activeProfile = async (active, token) => {
   }
   return axios.put(`${API_URL}user/active`, active, config)
 }
-
+export const confirmEmail = async (token) => {
+  try {
+    const res = await axios.get(`${API_URL}auth/confirm/${token}`);
+    return res.data; // devuelve { message: "Email confirmed successfully" }
+  } catch (error) {
+    if (error.response) return error.response.data;
+    throw error;
+  }
+};
 export const appointmentCreate = async(appCreate, token) => {
   const config = {
     headers: {

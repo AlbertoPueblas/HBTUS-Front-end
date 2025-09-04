@@ -44,28 +44,46 @@ export const Register = () => {
     };
 
     const register = async () => {
-        try {
-            const res = await newRegister(credentials);
+    //     try {
+    //         const res = await newRegister(credentials);
 
-            if (res.data && res.data.email) {
-                toast.success("Registro completado.");
-                setTimeout(() => {
-                    navigate("/home");
-                }, 1000);
-            } else {
-                toast.success(res.data.message || "#4caf50", "Usuario desactivado");
-                setTimeout(() => {
-                    navigate("/home")
-                }, 1000)
-            }
-        } catch (error) {
-            if (error.response && error.response.data && error.response.data.message === "Email already exists") {
-                toast.error("Error al registrar, prueba de nuevo");
-            } else {
-                toast.error("Email ya registrado");
-            }
+    //         if (res.data && res.data.email) {
+    //             toast.success("Registro completado.");
+    //             setTimeout(() => {
+    //                 navigate("/home");
+    //             }, 1000);
+    //         } else {
+    //             toast.success(res.data.message || "#4caf50", "Usuario desactivado");
+    //             setTimeout(() => {
+    //                 navigate("/home")
+    //             }, 1000)
+    //         }
+    //     } catch (error) {
+    //         if (error.response && error.response.data && error.response.data.message === "Email already exists") {
+    //             toast.error("Error al registrar, prueba de nuevo");
+    //         } else {
+    //             toast.error("Email ya registrado");
+    //         }
+    //     }
+    // };
+     try {
+        const res = await newRegister(credentials);
+
+        // Aquí asumimos que tu backend devuelve un mensaje de confirmación
+        // cuando se crea el usuario y envía el email
+        if (res.data && res.data.message) {
+            toast.success(res.data.message); // ej: "User registered. Check your email to confirm."
         }
-    };
+
+        // No navegar inmediatamente a /home hasta que confirme
+        // Opcional: puedes deshabilitar el login hasta que confirme
+    } catch (error) {
+        if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
+            toast.error("Error: Email ya registrado");
+        } else {
+            toast.error("Error al registrar");
+        }
+    }
 
     const activeProfile = async () => {
         try {
@@ -75,7 +93,7 @@ export const Register = () => {
         } catch (error) {
 
         }
-    }
+    }};
 
     const inputHandler = (e) => {
         setCredentials((prevState) => ({
