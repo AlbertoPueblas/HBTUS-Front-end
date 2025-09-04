@@ -12,7 +12,13 @@ import Image from 'react-bootstrap/Image';
 import MPImage from "../../images/metatron.png"
 import Privacity from '../../components/ModalPrivacity/ModalPrivacity';
 import { toast } from 'react-toastify';
-//------------------------------------------------------------------------------
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from 'date-fns/locale';
+import "./Register"
+
+registerLocale("es", es);
 
 export const Register = () => {
 
@@ -24,67 +30,19 @@ export const Register = () => {
         email: "",
         password: "",
         confirmPassword: "",
-    })
+        phone: "",
+        birthDate: "",
+    });
 
     const [registerTime, setRegisterTime] = useState(null)
     const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-
-        // Validación HTML5
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-            setValidated(true);
-            return;
-        }
-
-        // Validación de contraseñas coincidentes
-        if (credentials.password !== credentials.confirmPassword) {
-            toast.error("Las contraseñas no coinciden");
-            return;
-        }
-
-        setValidated(true);
-
-        const currentDate = new Date();
-        setRegisterTime(currentDate);
-
-        await register();
-    };
-
-    const register = async () => {
-        try {
-            const res = await newRegister(credentials);
-
-            // Aquí asumimos que tu backend devuelve un mensaje de confirmación
-            // cuando se crea el usuario y envía el email
-            if (res.data && res.data.message) {
-                toast.success(res.data.message); // ej: "User registered. Check your email to confirm."
-            }
-
-            // No navegar inmediatamente a /home hasta que confirme
-            // Opcional: puedes deshabilitar el login hasta que confirme
-        } catch (error) {
-            if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
-                toast.error("Error: Email ya registrado");
-            } else {
-                toast.error("Error al registrar");
-            }
-        }
-
-        const activeProfile = async () => {
-            try {
-                const response = await activeUser(id, token);
-                navigate("/home")
-
-            } catch (error) {
-
-            }
-        }
+    // Mostrar la contraseña temporalmente
+    const handleShowPasswordTemporarily = () => {
+        setShowPassword(true);
+        setTimeout(() => setShowPassword(false), 3000);
     };
 
     const inputHandler = (e) => {
@@ -94,6 +52,44 @@ export const Register = () => {
         }));
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+            setValidated(true);
+            return;
+        }
+
+        if (credentials.password !== credentials.confirmPassword) {
+            toast.error("Las contraseñas no coinciden");
+            return;
+        }
+
+        setValidated(true);
+        const currentDate = new Date();
+        setRegisterTime(currentDate);
+
+        await register();
+    };
+
+    const register = async () => {
+        try {
+            const res = await newRegister(credentials);
+            if (res.data && res.data.message) {
+                toast.success(res.data.message);
+            }
+            // Navegar a /home u otra página tras registro
+            // navigate("/home");
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
+                toast.error("Error: Email ya registrado");
+            } else {
+                toast.error("Error al registrar");
+            }
+        }
+    };
 
     return (
         <>
@@ -140,34 +136,94 @@ export const Register = () => {
                                             </InputGroup>
 
                                         </Form.Group>
+
                                         <Form.Group as={Col} sm="12" md="5" controlId="validationCustom2">
                                             <Form.Label></Form.Label>
-                                            <Form.Control
-                                                name="password"
-                                                required
-                                                type="password"
-                                                placeholder="Contraseña"
-                                                value={credentials.password}
-                                                onChange={inputHandler}
-                                            />
+                                            <InputGroup>
+                                                <Form.Control
+                                                    name="password"
+                                                    required
+                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="Contraseña"
+                                                    value={credentials.password}
+                                                    onChange={inputHandler}
+                                                />
+                                                <Button
+                                                    variant="outline-secondary"
+                                                    onClick={handleShowPasswordTemporarily}
+                                                    title="Mostrar contraseña 4s"
+                                                >
+                                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                </Button>
+                                            </InputGroup>
                                             <Form.Control.Feedback type="invalid">
                                                 Debe contener al menos 6 caracteres.
                                             </Form.Control.Feedback>
                                             <Form.Label></Form.Label>
-
-                                            <Form.Control
-                                                name="confirmPassword"
-                                                required
-                                                type="password"
-                                                placeholder="Confirmar Contraseña"
-                                                value={credentials.confirmPassword}
-                                                onChange={inputHandler}
-                                            />
+                                            <InputGroup>
+                                                <Form.Control
+                                                    name="confirmPassword"
+                                                    required
+                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="Confirmar Contraseña"
+                                                    value={credentials.confirmPassword}
+                                                    onChange={inputHandler}
+                                                />
+                                                <Button
+                                                    variant="outline-secondary"
+                                                    onClick={handleShowPasswordTemporarily}
+                                                    title="Mostrar contraseña 4s"
+                                                >
+                                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                </Button>
+                                            </InputGroup>
                                             <Form.Control.Feedback type="invalid">
                                                 Debe contener al menos 6 caracteres.
                                             </Form.Control.Feedback>
                                         </Form.Group>
+                                        <Form.Group as={Col} sm="12" md="5" controlId="validationPhone">
+                                            <Form.Label></Form.Label>
+                                            <Form.Control
+                                                name="phone"
+                                                required
+                                                type="text"
+                                                placeholder="Teléfono"
+                                                value={credentials.phone}
+                                                onChange={inputHandler}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                Introduce un teléfono válido.
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} sm="12" md="5" controlId="validationBirthDate">
+                                            <Form.Label></Form.Label>
+                                            <ReactDatePicker 
+                                                selected={credentials.birthDate ? new Date(credentials.birthDate) : null}
+                                                onChange={(date) =>
+                                                    inputHandler({
+                                                        target: {
+                                                            name: "birthDate",
+                                                            value: date ? date.toISOString().split("T")[0] : "",
+                                                        },
+                                                    })
+                                                }
+                                                dateFormat="yyyy-MM-dd"
+                                                locale="es"
+                                                showMonthDropdown
+                                                showYearDropdown
+                                                dropdownMode="select"
+                                                className="form-control"
+                                                maxDate={new Date()}
+                                                placeholderText="Fecha de nacimiento"
+                                                required
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                Introduce tu fecha de nacimiento.
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
                                     </Row>
+
                                     <Form.Group className="mb-3">
                                         <Form.Check
                                             required
@@ -176,7 +232,6 @@ export const Register = () => {
                                             label={
                                                 <>
                                                     Acepto la{" "}
-                                                    
                                                     <Button
                                                         variant="link"
                                                         className="p-0 align-baseline"
@@ -188,13 +243,15 @@ export const Register = () => {
                                             }
                                         />
                                     </Form.Group>
-                                    <Button type="submit">Registrame</Button>
+
+                                    <Button type="submit">Registrarme</Button>
                                 </Form>
                             </Col>
                         </Row>
                     </Card.Body>
                 </Card>
             </Container>
+
             <Privacity
                 show={showPrivacy}
                 onHide={() => setShowPrivacy(false)}
@@ -203,7 +260,6 @@ export const Register = () => {
                     setShowPrivacy(false);
                 }}
             />
-
         </>
     );
-}
+};

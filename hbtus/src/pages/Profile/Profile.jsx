@@ -1,4 +1,4 @@
-import "./Profile.css"
+import "./Profile.css";
 import Card from 'react-bootstrap/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData, logout } from '../../app/slice/userSlice';
@@ -6,179 +6,138 @@ import { useEffect, useState } from 'react';
 import { bringDates, meProfile } from '../../services/apiCalls';
 import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
-// import Delete from "../../components/ModalAlert/ModalAlert";
-//Iconos
-import { FcPlus } from "react-icons/fc";
 import { IoCalendarSharp, IoHomeOutline } from "react-icons/io5";
-import  Icon  from "../../images/metatron.png";
+import Icon from "../../images/metatron.png";
 import ModalProfile from "../../components/ModalProfile/ModalProfile";
-import AppointmentModal from "../../components/AppointmentModal/AppointmentModal";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-//--------------------------------------------------------
+//-------------------------------------------------------------------------------
 
 export const Profile = () => {
-
     const [profileData, setProfileData] = useState({
         firstName: "",
         lastName: "",
         email: "",
         phone: "",
-        password: ""
     });
-
     const [userData, setUserData] = useState([]);
-
-    const myPassport = useSelector(getUserData)
+    const myPassport = useSelector(getUserData);
     const token = myPassport.token;
-    const userReduxData = useSelector(getUserData) || {}
-    const userType = userReduxData?.decoded?.userRole
-
+    const userType = myPassport?.decoded?.userRole;
 
     const navigate = useNavigate();
-
-    const [show, setShow] = useState(false);
-
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchDataAndProfile = async () => {
-            const myProfileData = await meProfile(token);
-            setProfileData(myProfileData);
-            const res = await bringDates(token);
-            setUserData(res.user);
-            
+        const fetchData = async () => {
+            try {
+                const profile = await meProfile(token);
+                setProfileData(profile);
+                const res = await bringDates(token);
+                setUserData(res.user || []);
+            } catch (error) {
+                console.error(error);
+            }
         };
-        fetchDataAndProfile();
-    }, [token || ""]);
+        if (token) fetchData();
+    }, [token]);
 
     const inputHandler = (e) => {
-        setProfileData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-
+        setProfileData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
         }));
     };
 
-    const dispatch = useDispatch();
     const logOutMe = () => {
-        dispatch(logout())
-    }
+        dispatch(logout());
+        navigate("/login");
+    };
 
     return (
-        <>
-            <Container className="my-4">
-                <Card className='card'>
-                    <Card.Body>
-                        <Row className="mb-3">
-                            <Col xs={12} md={4}>
-                                <h6>Appointment</h6>
-                                <div className="icons">
-                                    <FcPlus className='icon' onClick={() => { navigate("/appointment") }} />
-                                    <IoHomeOutline className='icon' onClick={() => { navigate("/menu", { state: { userData } }) }} />
-                                    {userData.length > 0 && (
-                                        <IoCalendarSharp className='icon' onClick={() => navigate("/medates")} />
-                                    )}
-                                </div>
-                                <Image src={Icon} width={150} roundedCircle />
-                                <h6>Profile</h6>
-                                <div className="profile">
-                                    <div className={userType === "User" ? "modify-left" : "modify-center"}>
+        <Container className="my-4">
+            <Card className='card'>
+                <Card.Body>
+                    <Row>
+                        <Col xs={12} md={4}>
+                            <h6>Inicio</h6>
+                            <div className="icons">
+                                <IoHomeOutline className='icon' onClick={() => navigate("/menu", { state: { userData } })} />
+                                {userData.length > 0 && (
+                                    <IoCalendarSharp className='icon' onClick={() => navigate("/medates")} />
+                                )}
+                            </div>
+                            <Image src={Icon} width={150} roundedCircle />
+                            <h6>Mi perfil</h6>
+                            <div className="profile">
+                                <ModalProfile 
+                                    profileData={profileData} 
+                                    inputHandler={inputHandler} 
+                                    token={token} 
+                                />
+                            </div>
+                        </Col>
+                        <Col xs={12} md={8}>
+                            <h2>Mi Perfil</h2>
+                            <Form>
+                                <Form.Group controlId="email">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        value={profileData.email}
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="firstName">
+                                    <Form.Label>Nombre</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="firstName"
+                                        value={profileData.firstName}
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="lastName">
+                                    <Form.Label>Apellido</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="lastName"
+                                        value={profileData.lastName || ""}
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="phone">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="phone"
+                                        value={profileData.phone || ""}
+                                        readOnly
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="validationCustom04">
+    <Form.Label>Fecha de nacimiento</Form.Label>
+    <Form.Control
+        className="input"
+        name="birthDate"
+        type="date"
+        placeholder="Fecha de nacimiento"
+        readOnly
+        value={profileData.birthDate || ""}
+    />
+    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+</Form.Group>
 
-                                        <AppointmentModal
-                                            profileData={profileData}
-                                            inputHandler={inputHandler}
-                                            token={token} />
-                                    </div>
-
-                                    <div className="delet">
-                                        {userType === "User" ? (
-                                            <>
-                                            <Delete
-                                                profileData={profileData}
-                                                inputHandler={inputHandler}
-                                                token={token}
-                                                />
-                                                </>
-                                            
-                                        ) : (
-                                            null
-                                        )}
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col xs={12} md={8}>
-
-                                <h2>Mi Perfil</h2>
-                                <Form >
-                                    <Form.Group controlId="validationCustomUsername" >
-                                        <Form.Label>Email</Form.Label>
-                                        <InputGroup hasValidation>
-                                            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-                                            <Form.Control
-                                                className="input"
-                                                name="email"
-                                                type="email"
-                                                placeholder="Email"
-                                                aria-describedby="inputGroupPrepend"
-                                                required
-                                                value={profileData.email}
-                                                onChange={inputHandler}
-                                                readOnly
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                Please provide a valid email.
-                                            </Form.Control.Feedback>
-                                        </InputGroup>
-                                    </Form.Group>
-                                    <Form.Group controlId="validationCustom01">
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control
-                                            className="input"
-                                            name="firstName"
-                                            required
-                                            type="text"
-                                            placeholder="firstName"
-                                            readOnly
-                                            value={profileData.firstName}
-                                        />
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group controlId="validationCustom02">
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control
-                                            className="input"
-                                            name="lastName"
-                                            required
-                                            type="text"
-                                            placeholder="lastName"
-                                            readOnly
-                                            value={profileData.lastName || ""}//Pueden estar vacios
-                                        />
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group controlId="validationCustom03">
-                                        <Form.Label>Phone</Form.Label>
-                                        <Form.Control
-                                            className="input"
-                                            name="phone"
-                                            required
-                                            type="text"
-                                            placeholder="phone"
-                                            readOnly
-                                            value={profileData.phone || ""}
-                                        />
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                    </Form.Group>
-                                </Form>
-                            </Col>
-                        </Row>
-                    </Card.Body>
-                </Card>
-            </Container>
-        </>
-    )
-}
+                            </Form>
+                        </Col>
+                    </Row>
+                </Card.Body>
+            </Card>
+        </Container>
+    );
+};

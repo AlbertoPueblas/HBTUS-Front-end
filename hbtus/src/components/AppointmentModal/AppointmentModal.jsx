@@ -25,7 +25,7 @@ function AppointmentModal({
     serviceId: ''
   });
 
-  const servicesArray = services.services;
+  const servicesArray = services || [];
 
 useEffect(() => {
   if (modalMode === 'edit' && selectedAppointment) {
