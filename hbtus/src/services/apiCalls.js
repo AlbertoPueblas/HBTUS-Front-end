@@ -11,7 +11,7 @@ export const activeProfile = async (active, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  return axios.put(`${API_URL}user/active`, active, config)
+  return axios.put(`${API_URL}auth/active`, active, config)
 }
 export const confirmEmail = async (token) => {
   try {
@@ -93,7 +93,7 @@ export const meProfile = async (token) => {
 }
 
 export const newRegister = async (credentials) => {
-    return axios.post(`${API_URL}users/register`, credentials)
+    return axios.post(`${API_URL}auth/register`, credentials)
 }
 
 export const loginCall = async (credentials) => {
