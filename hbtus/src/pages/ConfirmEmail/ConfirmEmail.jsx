@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { confirmEmail } from "../services/apiCalls";
+import { confirmEmail } from "../../services/apiCalls";
 
 const ConfirmEmailPage = () => {
   const { token } = useParams<{ token: string }>("");
