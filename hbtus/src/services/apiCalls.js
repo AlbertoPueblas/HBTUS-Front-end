@@ -93,7 +93,7 @@ export const meProfile = async (token) => {
 }
 
 export const newRegister = async (credentials) => {
-    return axios.post(`${API_URL}auth/register`, credentials)
+    return axios.post(`${API_URL}users/register`, credentials)
 }
 
 export const loginCall = async (credentials) => {
