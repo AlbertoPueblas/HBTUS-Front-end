@@ -74,7 +74,7 @@ function UserCard({
                             <Card.Title>Email: {user.email}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">Phone: {user.phone}</Card.Subtitle>
                             <Card.Subtitle className="mb-2 text-muted">
-                                Status: {profileData.isActive ? "Activo" : "Inactivo"}
+                                Status: {user.isActive ? "Activo" : "Inactivo"}
                             </Card.Subtitle>
                             <Card.Subtitle>
                                 Registrado: {dayjs(user.registrationDateTime).format("YYYY-MM-DD")}

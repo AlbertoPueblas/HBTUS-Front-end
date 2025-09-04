@@ -37,7 +37,9 @@ export const Admin = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
+                
                 const res = await allUsers(token, currentPage);
+                console.log(res.data.users);
                 let fetchedUsers = res.data.users.map(user => ({
                     ...user,
                     appointment: user.appointment || []
@@ -54,8 +56,8 @@ export const Admin = () => {
     useEffect(() => {
   const fetchServices = async () => {
     try {
-      const res = await allTreatments(token); // función que llame al endpoint de servicios
-      setServices(res.data); // asumiendo que el array viene en res.data
+      const res = await allTreatments(token);
+      setServices(res.data); 
     } catch (error) {
       toast.error(error.message || "Error fetching services");
     }
@@ -220,6 +222,7 @@ const desactiveProfile = async (id) => {
                         <th>Apellido</th>
                         <th>Email</th>
                         <th>Teléfono</th>
+                        <th>Fecha</th>
                         <th className="celda">Acciones</th>
                     </tr>
                 </thead>
@@ -231,6 +234,7 @@ const desactiveProfile = async (id) => {
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
+                            <td>{user.birthDate}</td>
                             <td>
                                 {showProfile && selectedProfile?.id === user.id && (
                                     <UserCard
