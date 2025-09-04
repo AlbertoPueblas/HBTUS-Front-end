@@ -11,6 +11,7 @@ import { Treatments } from "../Treatment/Treatment";
 import { CreateDate } from "../CreateDate/CreateDate"
 import HistoryPage from "../History/History";
 import { Menu } from "../Menu/Menu";
+import ConfirmEmailPage from "../ConfirmEmail/ConfirmEmail";
 
 
 //--------------------------------------------------------------
