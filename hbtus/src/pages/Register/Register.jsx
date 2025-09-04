@@ -7,26 +7,26 @@ import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
-import { newRegister } from "../../services/apiCalls"
+import { newRegister } from "../../services/apiCalls";
 import Image from 'react-bootstrap/Image';
-import MPImage from "../../images/metatron.png"
+import MPImage from "../../images/metatron.png";
 import Privacity from '../../components/ModalPrivacity/ModalPrivacity';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from 'date-fns/locale';
-import "./Register"
+import "./Register";
 
 registerLocale("es", es);
 
 export const Register = () => {
-
     const navigate = useNavigate();
 
     const [validated, setValidated] = useState(false);
     const [credentials, setCredentials] = useState({
         firstName: "",
+        lastName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -34,12 +34,10 @@ export const Register = () => {
         birthDate: "",
     });
 
-    const [registerTime, setRegisterTime] = useState(null)
     const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    // Mostrar la contraseña temporalmente
     const handleShowPasswordTemporarily = () => {
         setShowPassword(true);
         setTimeout(() => setShowPassword(false), 3000);
@@ -62,15 +60,19 @@ export const Register = () => {
             return;
         }
 
+        // Validación de contraseña
         if (credentials.password !== credentials.confirmPassword) {
             toast.error("Las contraseñas no coinciden");
             return;
         }
 
-        setValidated(true);
-        const currentDate = new Date();
-        setRegisterTime(currentDate);
+        // Validación de fecha de nacimiento
+        if (!credentials.birthDate) {
+            toast.error("La fecha de nacimiento es obligatoria");
+            return;
+        }
 
+        setValidated(true);
         await register();
     };
 
@@ -78,12 +80,14 @@ export const Register = () => {
         try {
             const res = await newRegister(credentials);
             if (res.data && res.data.message) {
-                toast.success(res.data.message);
+                toast.success("Compruebe su correo para finalizar el registro, no se olvide de buscar en la carpeta de spam");
             }
-            // Navegar a /home u otra página tras registro
-            // navigate("/home");
+            // Redirigir al inicio tras registro exitoso
+            setTimeout(() => {
+                window.location.href = "https://hbtus.vercel.app/";
+            }, 4000);
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
+            if (error.response?.data?.message === "Email is already in use") {
                 toast.error("Error: Email ya registrado");
             } else {
                 toast.error("Error al registrar");
@@ -93,6 +97,18 @@ export const Register = () => {
 
     return (
         <>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <Container className="my-4">
                 <Card className='card'>
                     <h4>Registrate</h4>
@@ -104,8 +120,7 @@ export const Register = () => {
                             <Col xs={12} md={8}>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="5" controlId="validationCustom1">
-                                            <Form.Label></Form.Label>
+                                        <Form.Group as={Col} sm="12" md="5">
                                             <Form.Control
                                                 name="firstName"
                                                 required
@@ -118,8 +133,7 @@ export const Register = () => {
                                                 Introduce un nombre
                                             </Form.Control.Feedback>
 
-                                            <Form.Label></Form.Label>
-                                            <InputGroup hasValidation>
+                                            <InputGroup className="mt-2" hasValidation>
                                                 <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                                                 <Form.Control
                                                     name="email"
@@ -134,11 +148,9 @@ export const Register = () => {
                                                     Por favor, introduzca un email válido.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
-
                                         </Form.Group>
 
-                                        <Form.Group as={Col} sm="12" md="5" controlId="validationCustom2">
-                                            <Form.Label></Form.Label>
+                                        <Form.Group as={Col} sm="12" md="5">
                                             <InputGroup>
                                                 <Form.Control
                                                     name="password"
@@ -159,8 +171,8 @@ export const Register = () => {
                                             <Form.Control.Feedback type="invalid">
                                                 Debe contener al menos 6 caracteres.
                                             </Form.Control.Feedback>
-                                            <Form.Label></Form.Label>
-                                            <InputGroup>
+
+                                            <InputGroup className="mt-2">
                                                 <Form.Control
                                                     name="confirmPassword"
                                                     required
@@ -177,12 +189,9 @@ export const Register = () => {
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </Button>
                                             </InputGroup>
-                                            <Form.Control.Feedback type="invalid">
-                                                Debe contener al menos 6 caracteres.
-                                            </Form.Control.Feedback>
                                         </Form.Group>
-                                        <Form.Group as={Col} sm="12" md="5" controlId="validationPhone">
-                                            <Form.Label></Form.Label>
+
+                                        <Form.Group as={Col} sm="12" md="5" className="mt-2">
                                             <Form.Control
                                                 name="phone"
                                                 required
@@ -196,9 +205,8 @@ export const Register = () => {
                                             </Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <Form.Group as={Col} sm="12" md="5" controlId="validationBirthDate">
-                                            <Form.Label></Form.Label>
-                                            <ReactDatePicker 
+                                        <Form.Group as={Col} sm="12" md="5" className="mt-2">
+                                            <ReactDatePicker
                                                 selected={credentials.birthDate ? new Date(credentials.birthDate) : null}
                                                 onChange={(date) =>
                                                     inputHandler({
