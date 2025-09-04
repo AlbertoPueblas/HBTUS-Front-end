@@ -22,7 +22,8 @@ export const Register = () => {
     const [credentials, setCredentials] = useState({
         firstName: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: "",
     })
 
     const [registerTime, setRegisterTime] = useState(null)
@@ -33,67 +34,58 @@ export const Register = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
+
+        // Validación HTML5
         if (form.checkValidity() === false) {
             event.stopPropagation();
-        } else {
-            const currentDate = new Date(); // Obtiene la fecha y hora actual
-            setRegisterTime(currentDate); // Guarda la fecha y hora de registro
-            await register(currentDate); //Pasamos los datos a la función
+            setValidated(true);
+            return;
         }
+
+        // Validación de contraseñas coincidentes
+        if (credentials.password !== credentials.confirmPassword) {
+            toast.error("Las contraseñas no coinciden");
+            return;
+        }
+
         setValidated(true);
+
+        const currentDate = new Date();
+        setRegisterTime(currentDate);
+
+        await register();
     };
 
     const register = async () => {
-    //     try {
-    //         const res = await newRegister(credentials);
-
-    //         if (res.data && res.data.email) {
-    //             toast.success("Registro completado.");
-    //             setTimeout(() => {
-    //                 navigate("/home");
-    //             }, 1000);
-    //         } else {
-    //             toast.success(res.data.message || "#4caf50", "Usuario desactivado");
-    //             setTimeout(() => {
-    //                 navigate("/home")
-    //             }, 1000)
-    //         }
-    //     } catch (error) {
-    //         if (error.response && error.response.data && error.response.data.message === "Email already exists") {
-    //             toast.error("Error al registrar, prueba de nuevo");
-    //         } else {
-    //             toast.error("Email ya registrado");
-    //         }
-    //     }
-    // };
-     try {
-        const res = await newRegister(credentials);
-
-        // Aquí asumimos que tu backend devuelve un mensaje de confirmación
-        // cuando se crea el usuario y envía el email
-        if (res.data && res.data.message) {
-            toast.success(res.data.message); // ej: "User registered. Check your email to confirm."
-        }
-
-        // No navegar inmediatamente a /home hasta que confirme
-        // Opcional: puedes deshabilitar el login hasta que confirme
-    } catch (error) {
-        if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
-            toast.error("Error: Email ya registrado");
-        } else {
-            toast.error("Error al registrar");
-        }
-    }
-
-    const activeProfile = async () => {
         try {
-            const response = await activeUser(id, token);
-            navigate("/home")
+            const res = await newRegister(credentials);
 
+            // Aquí asumimos que tu backend devuelve un mensaje de confirmación
+            // cuando se crea el usuario y envía el email
+            if (res.data && res.data.message) {
+                toast.success(res.data.message); // ej: "User registered. Check your email to confirm."
+            }
+
+            // No navegar inmediatamente a /home hasta que confirme
+            // Opcional: puedes deshabilitar el login hasta que confirme
         } catch (error) {
-
+            if (error.response && error.response.data && error.response.data.message === "Email is already in use") {
+                toast.error("Error: Email ya registrado");
+            } else {
+                toast.error("Error al registrar");
+            }
         }
-    }};
+
+        const activeProfile = async () => {
+            try {
+                const response = await activeUser(id, token);
+                navigate("/home")
+
+            } catch (error) {
+
+            }
+        }
+    };
 
     const inputHandler = (e) => {
         setCredentials((prevState) => ({
@@ -116,20 +108,21 @@ export const Register = () => {
                             <Col xs={12} md={8}>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="4" controlId="validationCustom1">
-                                            <Form.Label>Nombre</Form.Label>
+                                        <Form.Group as={Col} sm="12" md="5" controlId="validationCustom1">
+                                            <Form.Label></Form.Label>
                                             <Form.Control
                                                 name="firstName"
                                                 required
                                                 type="text"
-                                                placeholder="First name"
+                                                placeholder="Nombre"
                                                 value={credentials.firstName}
                                                 onChange={inputHandler}
                                             />
-                                            <Form.Control.Feedback>Todo correcto!</Form.Control.Feedback>
-                                        </Form.Group>
-                                        <Form.Group as={Col} sm="12" md="4" controlId="validationCustomUsername">
-                                            <Form.Label>Email</Form.Label>
+                                            <Form.Control.Feedback type="invalid">
+                                                Introduce un nombre
+                                            </Form.Control.Feedback>
+
+                                            <Form.Label></Form.Label>
                                             <InputGroup hasValidation>
                                                 <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                                                 <Form.Control
@@ -145,20 +138,33 @@ export const Register = () => {
                                                     Por favor, introduzca un email válido.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
+
                                         </Form.Group>
-                                        <Form.Group as={Col} sm="12" md="4" controlId="validationCustom2">
-                                            <Form.Label>Contraseña</Form.Label>
+                                        <Form.Group as={Col} sm="12" md="5" controlId="validationCustom2">
+                                            <Form.Label></Form.Label>
                                             <Form.Control
                                                 name="password"
                                                 required
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder="Contraseña"
                                                 value={credentials.password}
                                                 onChange={inputHandler}
                                             />
-                                            <Form.Control.Feedback>Todo correcto!</Form.Control.Feedback>
                                             <Form.Control.Feedback type="invalid">
-                                                Laa contraseña debe contener al menos 8 caracteres.
+                                                Debe contener al menos 6 caracteres.
+                                            </Form.Control.Feedback>
+                                            <Form.Label></Form.Label>
+
+                                            <Form.Control
+                                                name="confirmPassword"
+                                                required
+                                                type="password"
+                                                placeholder="Confirmar Contraseña"
+                                                value={credentials.confirmPassword}
+                                                onChange={inputHandler}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                Debe contener al menos 6 caracteres.
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                     </Row>
@@ -170,6 +176,7 @@ export const Register = () => {
                                             label={
                                                 <>
                                                     Acepto la{" "}
+                                                    
                                                     <Button
                                                         variant="link"
                                                         className="p-0 align-baseline"

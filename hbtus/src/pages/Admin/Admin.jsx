@@ -68,25 +68,38 @@ export const Admin = () => {
         setStateUser(!stateUser);
     };
 
-    const restoreProfile = async (id) => {
-        try {
-            await restoreUser(id, token);
-            toast.success("Profile restored");
-            handleStateUserSuccessfully();
-        } catch {
-            toast.error("Error to restore profile");
-        }
-    };
+   const restoreProfile = async (id) => {
+    try {
+        await restoreUser(id, token);
+        toast.success("Perfil restaurado");
 
-    const desactiveProfile = async (id) => {
-        try {
-            await desactiveUser(id, token);
-            toast.success("Profile disabled");
-            handleStateUserSuccessfully();
-        } catch {
-            toast.error("Error to disable profile");
-        }
-    };
+        // ✅ Actualiza el estado local sin recargar toda la lista
+        setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+                user.id === id ? { ...user, isActive: true } : user
+            )
+        );
+    } catch {
+        toast.error("Error al restaurar perfil");
+    }
+};
+
+const desactiveProfile = async (id) => {
+    try {
+        await desactiveUser(id, token);
+        toast.success("Perfil desactivado");
+
+        // ✅ Actualiza el estado local sin recargar toda la lista
+        setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+                user.id === id ? { ...user, isActive: false } : user
+            )
+        );
+    } catch {
+        toast.error("Error al desactivar perfil");
+    }
+};
+
 
     const deletePermanent = async (id) => {
         try {
@@ -94,10 +107,10 @@ export const Admin = () => {
             if (users.length === 1 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
-            toast.success("User deleted successfully");
+            toast.success("Usuario eliminado");
             handleStateUserSuccessfully();
         } catch {
-            toast.error("Error deleting user");
+            toast.error("Error eliminando usuario");
         }
     };
 
