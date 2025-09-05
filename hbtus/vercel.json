@@ -9,7 +9,7 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "https://hbtu-bbdd-production.up.railway.app" },
-    { "handle": "filesystem" },
+    { "src": "/reset-password/(.*)", "dest": "/index.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
