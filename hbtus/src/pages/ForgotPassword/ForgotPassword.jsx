@@ -27,7 +27,7 @@ export const ForgotPassword = () => {
     }
 
     try {
-      const res = await sendResetEmail(email);
+      const res = await sendResetEmail({email});
       if (res.data && res.data.message) {
         toast.success(res.data.message);
       } else {

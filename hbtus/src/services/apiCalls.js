@@ -311,7 +311,7 @@ export const getUserById = async (id, token) => {
   }
 }
   // Solicitar recuperación de contraseña
-export const sendResetEmail = async (email) => {
+export const sendResetEmail = async ({ email }) => {
   const res = await axios.post(
     `${API_URL}auth/forgot-password`,
     { email }, // <-- aseguramos que va como { email: "..." }
