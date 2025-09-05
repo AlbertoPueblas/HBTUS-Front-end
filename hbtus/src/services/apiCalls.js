@@ -2,8 +2,8 @@ import axios from "axios"
 
 //---------------------------------------------
 
-// const API_URL = "http://localhost:3000/api/";
-const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
+const API_URL = "http://localhost:3000/api/";
+// const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
 
 export const activeProfile = async (active, token) => {
   const config = {
@@ -309,4 +309,18 @@ export const getUserById = async (id, token) => {
    
     throw error;
   }
+}
+  // Solicitar recuperación de contraseña
+export const sendResetEmail = async (email) => {
+  const res = await axios.post(`${API_URL}auth/forgot-password`, email);
+  return res.data;
+}
+
+// Restablecer contraseña con token
+export const resetPasswordCall = async (token, newPassword, confirmNewPassword) => {
+  const res = await axios.post(`${API_URL}auth/reset-password/${token}`, {
+    newPassword,
+    confirmNewPassword,
+  });
+  return res.data;
 }

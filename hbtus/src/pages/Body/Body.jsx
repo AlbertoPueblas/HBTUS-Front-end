@@ -11,7 +11,7 @@ import { Treatments } from "../Treatment/Treatment";
 import { CreateDate } from "../CreateDate/CreateDate"
 import HistoryPage from "../History/History";
 import { Menu } from "../Menu/Menu";
-import ConfirmEmailPage from "../ConfirmEmail/ConfirmEmail";
+import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 
 
 //--------------------------------------------------------------
@@ -32,7 +32,7 @@ export const Body = () => {
                 <Route path="/treatments" element={<Treatments />} />
                 <Route path="/medates" element={<Dates />} />
                 <Route path="/histories" element={<HistoryPage />} />
-                <Route path="/confirm/:token" element={<ConfirmEmailPage />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
         </>
     )
