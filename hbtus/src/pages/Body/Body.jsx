@@ -34,7 +34,7 @@ export const Body = () => {
                 <Route path="/medates" element={<Dates />} />
                 <Route path="/histories" element={<HistoryPage />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/forgot-password" element={<ResetPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
             </Routes>
         </>
     )
