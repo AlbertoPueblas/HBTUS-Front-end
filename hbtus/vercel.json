@@ -8,18 +8,8 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://hbtu-bbdd-production.up.railway.app/$1"
-    },
-    {
-      "src": "/(.*)",
-      "headers": { "cache-control": "public, max-age=0, must-revalidate" },
-      "dest": "/index.html",
-      "continue": true
-    },
-    {
-      "handle": "filesystem"
-    }
+    { "src": "/api/(.*)", "dest": "https://hbtu-bbdd-production.up.railway.app" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
