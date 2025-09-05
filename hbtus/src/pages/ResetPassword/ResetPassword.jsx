@@ -5,9 +5,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import InputGroup from "react-bootstrap/InputGroup";
 import { resetPasswordCall } from "../../services/apiCalls";
-
-//----------------------------------------------------------------------------------------
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -17,9 +17,13 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validated, setValidated] = useState(false);
 
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+
     if (form.checkValidity() === false) {
       e.stopPropagation();
       setValidated(true);
@@ -28,6 +32,11 @@ const ResetPassword = () => {
 
     if (!token) {
       toast.error("Token inválido");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Las contraseñas no coinciden");
       return;
     }
 
@@ -49,13 +58,22 @@ const ResetPassword = () => {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group controlId="newPassword">
                 <Form.Label>Nueva contraseña</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Nueva contraseña"
-                  required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
+                <InputGroup>
+                  <Form.Control
+                    type={showNewPassword ? "text" : "password"}
+                    placeholder="Nueva contraseña"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    title={showNewPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  </Button>
+                </InputGroup>
                 <Form.Control.Feedback type="invalid">
                   Ingresa tu nueva contraseña.
                 </Form.Control.Feedback>
@@ -63,13 +81,22 @@ const ResetPassword = () => {
 
               <Form.Group controlId="confirmPassword" className="mt-3">
                 <Form.Label>Confirmar contraseña</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirmar contraseña"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <InputGroup>
+                  <Form.Control
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirmar contraseña"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    title={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </Button>
+                </InputGroup>
                 <Form.Control.Feedback type="invalid">
                   Confirma tu contraseña.
                 </Form.Control.Feedback>
