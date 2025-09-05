@@ -35,7 +35,9 @@ export const ForgotPassword = () => {
         toast.success(res.data.message);
       } else {
         toast.success("Correo de recuperación enviado");
-        navigate('/login')
+        setTimeout(() => {
+          navigate('/login')
+        },2000)
       }
     } catch (error) {
       toast.error("No se pudo enviar el correo. Intenta de nuevo.");
