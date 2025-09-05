@@ -31,7 +31,7 @@ export const Login = () => {
         isActive: ""
     });
     const [isValid, setIsValid] = useState({ email: null, password: null });
-    
+
     // Nuevo estado para mostrar/ocultar la contraseña
     const [showPassword, setShowPassword] = useState(false);
 
@@ -77,10 +77,19 @@ export const Login = () => {
         setShowPassword(true);
         setTimeout(() => setShowPassword(false), 1500); // se oculta automáticamente a los 4 segundos
     };
-    
+
     return (
         <>
-        <ToastContainer />
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
             <Container className="my-4">
                 <Card className='card'>
                     <Card.Body>
@@ -124,8 +133,8 @@ export const Login = () => {
                                                 onChange={inputHandler}
                                                 isValid={isValid.password}
                                             />
-                                            <Button 
-                                                variant="outline-secondary" 
+                                            <Button
+                                                variant="outline-secondary"
                                                 onClick={handleShowPasswordTemporarily}
                                                 title="Mostrar contraseña 4s"
                                             >
@@ -151,8 +160,8 @@ export const Login = () => {
                     </Card.Body>
                 </Card>
                 <p className="mt-2">
-  ¿Olvidaste tu contraseña? <Link to="/forgot-password">Recupérala aquí</Link>
-</p>
+                    ¿Olvidaste tu contraseña? <Link to="/forgot-password">Recupérala aquí</Link>
+                </p>
             </Container>
         </>
     )
