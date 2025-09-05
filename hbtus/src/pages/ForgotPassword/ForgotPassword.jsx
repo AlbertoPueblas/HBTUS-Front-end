@@ -10,11 +10,14 @@ import Image from "react-bootstrap/Image";
 import { ToastContainer, toast } from "react-toastify";
 import Metatron from "../../images/metatron.png";
 import { sendResetEmail } from "../../services/apiCalls"; // <-- función que llama a tu backend
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
+//--------------------------------------------------------------
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [validated, setValidated] = useState(false);
+      const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,14 +35,16 @@ export const ForgotPassword = () => {
         toast.success(res.data.message);
       } else {
         toast.success("Correo de recuperación enviado");
+        navigate('/login')
       }
     } catch (error) {
       toast.error("No se pudo enviar el correo. Intenta de nuevo.");
     }
   };
-
+  
   return (
     <>
+    <ToastContainer position="center" autoClose={3000} />
       <Container className="my-4">
         <Card className="card">
           <Card.Body>
@@ -80,7 +85,6 @@ export const ForgotPassword = () => {
           </Card.Body>
         </Card>
       </Container>
-      <ToastContainer position="center" autoClose={3000} />
     </>
   );
 };

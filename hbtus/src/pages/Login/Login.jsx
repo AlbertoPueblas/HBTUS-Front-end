@@ -77,9 +77,10 @@ export const Login = () => {
         setShowPassword(true);
         setTimeout(() => setShowPassword(false), 1500); // se oculta automáticamente a los 4 segundos
     };
-
+    
     return (
         <>
+        <ToastContainer />
             <Container className="my-4">
                 <Card className='card'>
                     <Card.Body>
@@ -153,7 +154,6 @@ export const Login = () => {
   ¿Olvidaste tu contraseña? <Link to="/forgot-password">Recupérala aquí</Link>
 </p>
             </Container>
-            <ToastContainer />
         </>
     )
 }
