@@ -2,8 +2,8 @@ import axios from "axios"
 
 //---------------------------------------------
 
-const API_URL = "http://localhost:3000/api/";
-// const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
+// const API_URL = "http://localhost:3000/api/";
+const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
 
 export const activeProfile = async (active, token) => {
   const config = {
