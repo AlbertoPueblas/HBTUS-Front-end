@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   // Asegura que los archivos se sirvan correctamente en producción
-  base: './',
+  base: '/',
   server: {
     port: 5173, // puerto por defecto de Vite, opcional
   },
