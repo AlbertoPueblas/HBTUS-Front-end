@@ -7,9 +7,7 @@ import Form from "react-bootstrap/Form";
 import { FaStar } from "react-icons/fa";
 import { addReview, getAllReviews } from "../../services/apiCalls";
 import { getUserData } from "../../app/slice/userSlice";
-import { CardBody } from "react-bootstrap";
-import Pagination from 'react-bootstrap/Pagination';
-
+import Pagination from "react-bootstrap/Pagination";
 
 export const Reviews = () => {
   const myPassport = useSelector(getUserData);
@@ -24,12 +22,16 @@ export const Reviews = () => {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 15;
 
-  // Traer todas las reviews al montar el componente
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const res = await getAllReviews();
         setReviews(res.reviews || []);
+
+        // Calcular páginas
+        if (res.reviews) {
+          setTotalPages(Math.ceil(res.reviews.length / itemsPerPage));
+        }
       } catch (error) {
         toast.error("Error al cargar las reseñas");
       }
@@ -54,7 +56,6 @@ export const Reviews = () => {
       const res = await addReview({ comment, rating }, token);
       toast.success(res.message || "Review añadida correctamente");
 
-      // Actualizamos la lista de reviews en tiempo real
       setReviews((prev) => [
         ...prev,
         {
@@ -72,61 +73,106 @@ export const Reviews = () => {
     }
   };
 
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
+  // Calcular media de reseñas
+  const averageRating =
+    reviews.length > 0
+      ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
+      : 0;
+
+  // Paginación local
+  const paginatedReviews = reviews
+    .slice()
+    .reverse()
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <>
       <ToastContainer position="top-center" autoClose={2000} />
 
-      {/* Listado de reseñas */}
       <Card className="card my-3">
         <Card.Body>
           <h4>Reseñas</h4>
+
+          {/* Mostrar media de reseñas */}
+          {reviews.length > 0 && (
+            <div style={{ marginBottom: "15px" }}>
+              <h5>
+                Valoración media: {averageRating} / 5
+              </h5>
+              <div>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FaStar
+                    key={star}
+                    size={25}
+                    color={star <= Math.round(averageRating) ? "#ffc107" : "#e4e5e9"}
+                  />
+                ))}
+                <span style={{ marginLeft: 10, fontSize: 14 }}>
+                  ({reviews.length} reseñas)
+                </span>
+              </div>
+            </div>
+          )}
+
           {reviews.length === 0 ? (
             <p>No hay reseñas todavía</p>
           ) : (
-            reviews
-              .slice()
-              .reverse()
-              .map((r) => (
-                <Card key={r.id} className="mb-2">
-                  <Card.Body>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <FaStar
-                          key={star}
-                          size={20}
-                          color={star <= r.rating ? "#ffc107" : "#e4e5e9"}
-                        />
-                      ))}
-                      <span style={{ marginLeft: 10, fontSize: 12 }}>
-                        {new Date(r.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p>{r.comment}</p>
-                  </Card.Body>
-                </Card>
-              ))
+            paginatedReviews.map((r) => (
+              <Card key={r.id} className="mb-2">
+                <Card.Body>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <FaStar
+                        key={star}
+                        size={20}
+                        color={star <= r.rating ? "#ffc107" : "#e4e5e9"}
+                      />
+                    ))}
+                    <span style={{ marginLeft: 10, fontSize: 12 }}>
+                      {new Date(r.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <p>{r.comment}</p>
+                </Card.Body>
+              </Card>
+            ))
+          )}
+
+          {/* Paginación */}
+          {reviews.length > itemsPerPage && (
+            <div className="pagination">
+              <Pagination>
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
           )}
         </Card.Body>
       </Card>
-       <div className="pagination">
-                <Pagination>
-                    <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                    {[...Array(totalPages)].map((_, index) => (
-                        <Pagination.Item
-                            key={index + 1}
-                            active={index + 1 === currentPage}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            {index + 1}
-                        </Pagination.Item>
-                    ))}
-                    <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-                </Pagination>
-            </div>
+
       {/* Formulario de añadir reseña */}
-      {token && userRole !== 'Admin' && (
+      {token && userRole !== "Admin" && (
         <Card className="card my-3">
           <Card.Body>
             <h4>Añadir reseña</h4>
@@ -165,6 +211,5 @@ export const Reviews = () => {
         </Card>
       )}
     </>
-
   );
 };

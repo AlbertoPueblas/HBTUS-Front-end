@@ -86,13 +86,13 @@ function Header() {
               <div className='iconDiv'>
 
                 <IoHomeOutline className='iconNav' onClick={() => { navigate("/home") }} />
-                {/* {token && (
+                {token && (
                   <IoCalendarOutline
                     className='iconNav'
                     onClick={() => {
                       navigate("/meDates");
                     }} />
-                )} */}
+                )}
                 {<IoImageOutline
                   className='iconNav'
                   onClick={() => {

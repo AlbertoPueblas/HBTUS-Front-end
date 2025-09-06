@@ -143,7 +143,7 @@ export const Register = () => {
                                                 onChange={inputHandler}
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                Introduce un nombre
+                                                Introduce un nombre válido
                                             </Form.Control.Feedback>
 
                                             <InputGroup className="mt-2" hasValidation>
@@ -158,12 +158,13 @@ export const Register = () => {
                                                     onChange={inputHandler}
                                                 />
                                                 <Form.Control.Feedback type="invalid">
-                                                    Por favor, introduzca un email válido.
+                                                    Introduzca un email válido.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
                                         </Form.Group>
 
                                         <Form.Group as={Col} sm="12" md="5">
+                                            {/* Campo password */}
                                             <InputGroup>
                                                 <Form.Control
                                                     name="password"
@@ -180,11 +181,12 @@ export const Register = () => {
                                                 >
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </Button>
+                                                <Form.Control.Feedback type="valid">
+                                                    Las contraseñas coinciden.
+                                                </Form.Control.Feedback>
                                             </InputGroup>
-                                            <Form.Control.Feedback type="invalid">
-                                                Debe contener al menos 6 caracteres.
-                                            </Form.Control.Feedback>
 
+                                            {/* Campo confirmPassword */}
                                             <InputGroup className="mt-2">
                                                 <Form.Control
                                                     name="confirmPassword"
@@ -193,6 +195,16 @@ export const Register = () => {
                                                     placeholder="Confirmar Contraseña"
                                                     value={credentials.confirmPassword}
                                                     onChange={inputHandler}
+                                                    isInvalid={
+                                                        validated &&
+                                                        credentials.confirmPassword !== "" &&
+                                                        credentials.confirmPassword !== credentials.password
+                                                    }
+                                                    isValid={
+                                                        validated &&
+                                                        credentials.confirmPassword !== "" &&
+                                                        credentials.confirmPassword === credentials.password
+                                                    }
                                                 />
                                                 <Button
                                                     variant="outline-secondary"
@@ -201,8 +213,16 @@ export const Register = () => {
                                                 >
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </Button>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Las contraseñas no coinciden.
+                                                </Form.Control.Feedback>
+                                                <Form.Control.Feedback type="valid">
+                                                    Las contraseñas coinciden.
+                                                </Form.Control.Feedback>
                                             </InputGroup>
                                         </Form.Group>
+
+
 
                                         <Form.Group as={Col} sm="12" md="5" className="mt-2">
                                             <Form.Control

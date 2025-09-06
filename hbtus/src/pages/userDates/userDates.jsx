@@ -80,6 +80,7 @@ export const Dates = () => {
                     <h3 className="text-center">Citas</h3>
                     <Card className='card'>
                         <Card.Body>
+                            <h6>Proximamente...</h6>
                             {dates && dates.map((date, index) => (
                                 <Card key={index} className="mb-2" onClick={() => handleNewTreatment(date)}>
                                     <Card.Body>
