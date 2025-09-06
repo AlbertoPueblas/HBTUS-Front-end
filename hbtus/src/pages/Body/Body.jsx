@@ -12,7 +12,7 @@ import { CreateDate } from "../CreateDate/CreateDate"
 import HistoryPage from "../History/History";
 import { Menu } from "../Menu/Menu";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
-// import ResetPassword from "../ResetPassword/ResetPassword";
+import ResetPassword from "../ResetPassword/ResetPassword";
 import { Reviews } from "../Reviews/Reviews";
 
 
