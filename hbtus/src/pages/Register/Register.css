@@ -1,15 +1,3 @@
-/* Que el wrapper ocupe todo el ancho */
-.react-datepicker-wrapper {
-    width: 100%;
-}
-
-/* El input dentro del wrapper con estilo bootstrap */
-.react-datepicker__input-container input {
-    width: 100%;
-    height: calc(2.25rem + 2px); /* Igual que Form.Control */
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: .25rem;
-    border: 1px solid #ced4da;
+.react-datepicker-popper {
+  z-index: 1050; /* mayor que Bootstrap modal/input */
 }

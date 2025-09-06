@@ -16,7 +16,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from 'date-fns/locale';
-import "./Register";
+import "./Register.css";
 
 registerLocale("es", es);
 
