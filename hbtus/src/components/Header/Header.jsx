@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { FcImport } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
-import { IoPersonOutline, IoHomeOutline, IoCalendarOutline, IoImageOutline } from "react-icons/io5";
+import { IoPersonOutline, IoHomeOutline, IoCalendarOutline, IoImageOutline, IoChatboxEllipsesOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { ButtonGroup, DropdownButton, Dropdown } from 'react-bootstrap';
-
+import { BsChatLeftHeart } from "react-icons/bs";
 
 //----------------------------------------------------------------
 function Header() {
@@ -24,10 +24,10 @@ function Header() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch();
-const logOutMe = () => {
-  dispatch(logout());
-  window.location.href = "/login";
-};
+  const logOutMe = () => {
+    dispatch(logout());
+    window.location.href = "/login";
+  };
 
   return (
     <Navbar expand="lg" className="navBar">
@@ -45,25 +45,30 @@ const logOutMe = () => {
           {userType === "Admin" ? (
             <>
               <ButtonGroup>
-      <DropdownButton as={ButtonGroup} title="Acciones" id="bg-nested-dropdown">
-        <Dropdown.Item href="/">Home</Dropdown.Item>
-        <Dropdown.Item href="/admin">Usuarios</Dropdown.Item>
-        <Dropdown.Item href="/appointment">Citas</Dropdown.Item>
-        <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
-        <NavDropdown.Divider />
-        {<IoImageOutline
-                  className='iconNav'
-                  onClick={() => {
-                    navigate("/menu");
-                  }} />}
-                {token && <IoPersonOutline
-                  className='iconNav'
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                />}
-      </DropdownButton>
-    </ButtonGroup>
+                <DropdownButton as={ButtonGroup} title="Acciones" id="bg-nested-dropdown">
+                  <Dropdown.Item href="/">Home</Dropdown.Item>
+                  <Dropdown.Item href="/admin">Usuarios</Dropdown.Item>
+                  <Dropdown.Item href="/appointment">Citas</Dropdown.Item>
+                  <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
+                  <NavDropdown.Divider />
+                </DropdownButton>
+              </ButtonGroup>
+              {<IoImageOutline
+                className='iconNav'
+                onClick={() => {
+                  navigate("/menu");
+                }} />}
+              {token && <IoPersonOutline
+                className='iconNav'
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              />}
+              <BsChatLeftHeart
+                className='iconNav2'
+                onClick={() => {
+                  navigate('/reviews')
+                }} />
 
             </>
 
@@ -88,7 +93,7 @@ const logOutMe = () => {
                       navigate("/meDates");
                     }} />
                 )} */}
-                  {<IoImageOutline
+                {<IoImageOutline
                   className='iconNav'
                   onClick={() => {
                     navigate("/menu");
@@ -99,25 +104,30 @@ const logOutMe = () => {
                     navigate("/profile");
                   }}
                 />}
+                <BsChatLeftHeart
+                  className='iconNav2'
+                  onClick={() => {
+                    navigate('/reviews')
+                  }} />
               </div>
             </>
           )}
         </Nav>
         {token ? (
-  <FcImport
-    className='exit'
-    onClick={() => {
-      logOutMe();
-      navigate("/home");
-    }} />
-) : (
-  <Nav.Link
-    onClick={() => navigate("/login")}
-    style={{ cursor: "pointer", marginLeft: "1em", fontWeight: "bold" }}
-  >
-    Iniciar sesión
-  </Nav.Link>
-)}
+          <FcImport
+            className='exit'
+            onClick={() => {
+              logOutMe();
+              navigate("/home");
+            }} />
+        ) : (
+          <Nav.Link
+            onClick={() => navigate("/login")}
+            style={{ cursor: "pointer", marginLeft: "1em", fontWeight: "bold" }}
+          >
+            Iniciar sesión
+          </Nav.Link>
+        )}
 
         {/* </Navbar.Collapse> */}
       </Container>

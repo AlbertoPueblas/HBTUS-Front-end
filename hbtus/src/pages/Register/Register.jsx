@@ -20,6 +20,7 @@ import "./Register";
 
 registerLocale("es", es);
 
+//----------------------------------------------------------------------------------
 export const Register = () => {
     const navigate = useNavigate();
 
@@ -93,6 +94,18 @@ export const Register = () => {
                 toast.error("Error al registrar");
             }
         }
+    };
+    //Ajuste Daypicker
+    const toYMD = (d) => {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+    };
+
+    const parseYMD = (s) => {
+        const [y, m, d] = s.split("-").map(Number);
+        return new Date(y, m - 1, d);
     };
 
     return (
@@ -207,12 +220,12 @@ export const Register = () => {
 
                                         <Form.Group as={Col} sm="12" md="5" className="mt-2">
                                             <ReactDatePicker
-                                                selected={credentials.birthDate ? new Date(credentials.birthDate) : null}
+                                                selected={credentials.birthDate ? parseYMD(credentials.birthDate) : null}
                                                 onChange={(date) =>
                                                     inputHandler({
                                                         target: {
                                                             name: "birthDate",
-                                                            value: date ? date.toISOString().split("T")[0] : "",
+                                                            value: date ? toYMD(date) : "",
                                                         },
                                                     })
                                                 }

@@ -2,8 +2,8 @@ import axios from "axios"
 
 //---------------------------------------------
 
-// const API_URL = "http://localhost:3000/api/";
-const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
+const API_URL = "http://localhost:3000/api/";
+// const API_URL = "https://hbtu-bbdd-production.up.railway.app/";
 
 export const activeProfile = async (active, token) => {
   const config = {
@@ -327,4 +327,26 @@ export const resetPasswordCall = async (token, newPassword, confirmNewPassword) 
     confirmNewPassword,
   });
   return res.data;
-}
+};
+export const addReview = async (reviewData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await axios.post(`${API_URL}users/addReviews`, reviewData, config);
+  return res.data;
+};
+// Traer todas las reviews
+export const getAllReviews = async () => {
+  try {
+    const res = await axios.get(`${API_URL}users/getReviews`); // Ajusta la ruta si es diferente
+    return res.data; // Se espera { reviews: [...] }
+  } catch (error) {
+    if (error.response) return error.response.data;
+    throw error;
+  }
+};
+
+
