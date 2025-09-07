@@ -159,7 +159,7 @@ export const Login = () => {
                         </Row>
                     </Card.Body>
                 </Card>
-                <p className="mt-2">
+                <p className="mt-21">
                     ¿Olvidaste tu contraseña? <Link to="/forgot-password">Recupérala aquí</Link>
                 </p>
             </Container>
