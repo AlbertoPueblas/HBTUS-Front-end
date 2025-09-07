@@ -38,3 +38,32 @@ span {
     position: relative;
     z-index: 1; /* Asegura que el contenido esté sobre el overlay */
 }
+/* --- Responsive para móviles --- */
+@media (max-width: 768px) {
+    .tarjetaHome {
+        padding: 0rem;      /* más espacio interno relativo al tamaño */
+        margin-left: 1rem;
+        margin-right: 0rem;
+    }
+
+    .titulo {
+        font-size: 1.5rem;    /* más legible en móvil */
+        margin-bottom: -0.1rem;   /* evita que quede pegado a los bordes */
+
+    }
+
+    .advertencia {
+        font-size: 1rem;
+        margin-top: -1rem;
+    }
+
+    .presentacion {
+        font-size: 1rem;
+        margin-top: 0rem;
+    }
+
+    span {
+        margin-bottom: 0.75rem;
+        font-weight: bold;
+    }
+}
