@@ -128,7 +128,7 @@ export const Register = () => {
                     <Card.Body>
                         <Row>
                             <Col xs={12} md={4}>
-                                <Image src={MPImage} width={200} roundedCircle />
+                                <Image className='img' src={MPImage} width={200} roundedCircle />
                             </Col>
                             <Col xs={12} md={8}>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -147,7 +147,7 @@ export const Register = () => {
                                             </Form.Control.Feedback>
 
                                             <InputGroup className="mt-2" hasValidation>
-                                                <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+                                                <InputGroup.Text id="inputE">@</InputGroup.Text>
                                                 <Form.Control
                                                     name="email"
                                                     type="email"

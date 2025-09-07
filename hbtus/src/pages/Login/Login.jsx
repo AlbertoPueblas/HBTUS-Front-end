@@ -95,17 +95,17 @@ export const Login = () => {
                     <Card.Body>
                         <Row className="mb-3">
                             <Col xs={12} md={4}>
-                                <Image src={Metatron} width={200} roundedCircle />
+                                <Image className="img" src={Metatron} width={200} roundedCircle />
                             </Col>
                             <Col xs={12} md={8}>
-                                <h1>Iniciar sesión</h1>
+                                <h1 className="texto">Iniciar sesión</h1>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Form.Group controlId="validationCustomUsername" >
                                         <Form.Label>Email</Form.Label>
                                         <InputGroup hasValidation>
-                                            <InputGroup.Text>@</InputGroup.Text>
+                                        <InputGroup.Text>@</InputGroup.Text> 
                                             <Form.Control
-                                                className="input"
+                                                className="inputE"
                                                 name="email"
                                                 type="email"
                                                 placeholder="Email"
@@ -113,7 +113,7 @@ export const Login = () => {
                                                 value={credentials.email}
                                                 onChange={inputHandler}
                                                 isValid={isValid.email}
-                                            />
+                                                />
                                             <Form.Control.Feedback type="invalid">
                                                 Credenciales incorrectas.
                                             </Form.Control.Feedback>

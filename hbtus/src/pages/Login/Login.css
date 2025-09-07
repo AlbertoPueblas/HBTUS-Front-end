@@ -2,3 +2,25 @@
     color: aliceblue;
     font-size: 1rem;
 }
+/* Ajuste en móviles */
+@media (max-width: 768px) {
+
+
+  .inputE {
+    font-size: 1rem;         /* inputs un poco más grandes en móvil */
+    padding: 0.75rem;
+    height: 2.4rem;
+  }
+
+  .texto {
+    font-size: 1.5rem;       /* el título más pequeño en pantallas chicas */
+  }
+
+  h6 {
+    font-size: 0.9rem;
+  }
+  .img {
+    height: 6rem;
+    width: 6rem;
+  }
+}
