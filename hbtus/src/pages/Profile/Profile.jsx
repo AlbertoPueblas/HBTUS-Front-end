@@ -66,7 +66,7 @@ export const Profile = () => {
                         <Col xs={12} md={4}>
                             <h6>Inicio</h6>
                             <div className="icons">
-                                <IoHomeOutline className='icon' onClick={() => navigate("/menu", { state: { userData } })} />
+                                <IoHomeOutline className='icon' onClick={() => navigate("/", { state: { userData } })} />
                                 {userData.length > 0 && (
                                     <IoCalendarSharp className='icon' onClick={() => navigate("/medates")} />
                                 )}

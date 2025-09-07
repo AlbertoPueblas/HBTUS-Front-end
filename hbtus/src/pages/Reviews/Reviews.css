@@ -1,0 +1,23 @@
+.card.my-3 {
+   margin-left: 1rem;
+   margin-right: 1rem;
+   padding: 0.1rem;
+}
+.start {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 0rem;
+}
+@media (max-width: 768px) {
+  .card.my-3 {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0rem;
+  }
+  p {
+    font-size: 0.95rem;
+  }
+}

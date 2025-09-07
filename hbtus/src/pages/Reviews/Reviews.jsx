@@ -8,6 +8,9 @@ import { FaStar } from "react-icons/fa";
 import { addReview, getAllReviews } from "../../services/apiCalls";
 import { getUserData } from "../../app/slice/userSlice";
 import Pagination from "react-bootstrap/Pagination";
+import "./Reviews.css"
+
+//----------------------------------------------------------------------
 
 export const Reviews = () => {
   const myPassport = useSelector(getUserData);
@@ -126,7 +129,9 @@ export const Reviews = () => {
             paginatedReviews.map((r) => (
               <Card key={r.id} className="mb-2">
                 <Card.Body>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <p><strong>{r.user.firstName || "Usuario"}</strong> dijo:</p>
+                  <p>{r.comment}</p>
+                  <div style={{ display: "flex", alignItems: "center" }} className="start">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <FaStar
                         key={star}
@@ -135,10 +140,10 @@ export const Reviews = () => {
                       />
                     ))}
                     <span style={{ marginLeft: 10, fontSize: 12 }}>
-                      {new Date(r.createdAt).toLocaleDateString()}
+                      {new Date(r.createdAt).toLocaleString()}
                     </span>
                   </div>
-                  <p>{r.comment}</p>
+
                 </Card.Body>
               </Card>
             ))
