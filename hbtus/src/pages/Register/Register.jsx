@@ -147,8 +147,8 @@ export const Register = () => {
                                             </Form.Control.Feedback>
 
                                             <InputGroup className="mt-2" hasValidation>
-                                                <InputGroup.Text id="inputE">@</InputGroup.Text>
-                                                <Form.Control
+                                                <InputGroup.Text >@</InputGroup.Text>
+                                                <Form.Control id="inputE"
                                                     name="email"
                                                     type="email"
                                                     placeholder="Email"
