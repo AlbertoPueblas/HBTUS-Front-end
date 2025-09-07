@@ -60,3 +60,16 @@ h2 {
     margin-left: 5em;
     transform: translateX(-50%);
 }
+
+.navBarBtn {
+    display: flex;
+    margin-left: 7rem;
+    margin-top: -2rem;
+}
+
+.navBarGroup {
+    margin-top: -1rem;
+    z-index: 1050;
+    overflow: visible;
+    position: fixed;
+}

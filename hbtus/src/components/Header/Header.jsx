@@ -45,32 +45,34 @@ function Header() {
           {userType === "Admin" ? (
             <>
               <ButtonGroup>
-                <DropdownButton as={ButtonGroup} title="Acciones" id="bg-nested-dropdown">
+                <DropdownButton className='navBarGroup'  title="Acciones" id="bg-nested-dropdown" drop="down">
                   <Dropdown.Item href="/">Home</Dropdown.Item>
                   <Dropdown.Item href="/admin">Usuarios</Dropdown.Item>
                   <Dropdown.Item href="/appointment">Citas</Dropdown.Item>
                   <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
                   <NavDropdown.Divider />
-                </DropdownButton>
-              </ButtonGroup>
-              {<IoImageOutline
-                className='iconNav'
-                onClick={() => {
-                  navigate("/menu");
-                }} />}
-              {token && <IoPersonOutline
-                className='iconNav'
-                onClick={() => {
-                  navigate("/profile");
-                }}
-              />}
-              <BsChatLeftHeart
-                className='iconNav2'
-                onClick={() => {
-                  navigate('/reviews')
-                }} />
 
-            </>
+                {<IoImageOutline
+                  className='iconNav'
+                  onClick={() => {
+                    navigate("/menu");
+                  }} />}
+                {token && <IoPersonOutline
+                  className='iconNav'
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                  />}
+                <BsChatLeftHeart
+                  className='iconNav2'
+                  onClick={() => {
+                    navigate('/reviews')
+                  }} />
+
+                  </DropdownButton>
+                </ButtonGroup>
+                  </>
+
 
           ) : userType === "User" ? (
             <>
@@ -114,12 +116,14 @@ function Header() {
           )}
         </Nav>
         {token ? (
-          <FcImport
-            className='exit'
-            onClick={() => {
-              logOutMe();
-              navigate("/home");
-            }} />
+
+            <FcImport
+              className='exit'
+              onClick={() => {
+                logOutMe();
+                navigate("/home");
+              }} />
+
         ) : (
           <Nav.Link
             onClick={() => navigate("/login")}
