@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { FcImport } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
-import { IoPersonOutline, IoHomeOutline, IoCalendarOutline, IoImageOutline, IoChatboxEllipsesOutline } from "react-icons/io5";
+import { IoPersonOutline, IoHomeOutline, IoCalendarOutline, IoImageOutline, IoChatboxEllipsesOutline, IoBriefcaseOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { ButtonGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { BsChatLeftHeart } from "react-icons/bs";
@@ -52,7 +52,7 @@ function Header() {
                   <Dropdown.Item href="/treatments">Servicios</Dropdown.Item>
                   <NavDropdown.Divider />
 
-                {<IoImageOutline
+                {<IoBriefcaseOutline
                   className='iconNav'
                   onClick={() => {
                     navigate("/menu");
@@ -95,7 +95,7 @@ function Header() {
                       navigate("/meDates");
                     }} />
                 )}
-                {<IoImageOutline
+                {<IoBriefcaseOutline
                   className='iconNav'
                   onClick={() => {
                     navigate("/menu");

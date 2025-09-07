@@ -22,15 +22,15 @@ export const Menu = () => {
   useEffect(() => {
     const fetchTreatments = async () => {
       try {
-        const res = await bringAllTreatments(token, currentPage);
+        const res = await bringAllTreatments(currentPage);
         setServices(res.data.services);
         setTotalPages(res.data.total_pages);
       } catch (error) {
         toast.error(error.response?.data?.message || "Error al cargar los servicios");
       }
     };
-    if (token) fetchTreatments();
-  }, [currentPage, token]);
+    fetchTreatments();
+  }, [currentPage]);
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index); // abre/cierra el acordeón
