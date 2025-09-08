@@ -181,8 +181,9 @@ export const Register = () => {
                                                     isInvalid={
                                                         validated &&
                                                         credentials.password !== "" &&
-                                                        credentials.password !== credentials.confirmPassword 
+                                                        credentials.password !== credentials.confirmPassword
                                                     }
+
                                                 />
                                                 <Button
                                                     variant="outline-secondary"
@@ -196,12 +197,11 @@ export const Register = () => {
                                                 </Form.Control.Feedback>
                                             </InputGroup>
 
-                                            {/* Campo confirmPassword */}
                                             <Form.Label>Contraseña</Form.Label>
                                             <InputGroup className="mt-2">
                                                 <Form.Control
                                                     name="confirmPassword"
-                                                    required
+                                                    // required
                                                     type={showPassword ? "text" : "password"}
                                                     placeholder="Confirmar Contraseña"
                                                     value={credentials.confirmPassword}
@@ -224,14 +224,14 @@ export const Register = () => {
                                                 <Form.Control.Feedback type="invalid">
                                                     Las contraseñas no coinciden.
                                                 </Form.Control.Feedback>
+                                                {/* <Form.Control.Feedback type="valid">
+                                                    Las contraseñas coinciden.
+                                                </Form.Control.Feedback> */}
                                             </InputGroup>
                                         </Form.Group>
 
-
-
                                         <Form.Group as={Col} sm="12" md="5" className="mt-2">
                                             <Form.Label>Teléfono</Form.Label>
-
                                             <Form.Control
                                                 name="phone"
                                                 required
@@ -267,9 +267,11 @@ export const Register = () => {
                                                 placeholderText="Fecha de nacimiento"
                                                 required
                                             />
-                                            <Form.Control.Feedback type="invalid">
-                                                Introduce tu fecha de nacimiento.
-                                            </Form.Control.Feedback>
+                                            {validated && !credentials.birthDate && (
+                                                <div className="invalid-feedback d-block">
+                                                    Introduce tu fecha de nacimiento.
+                                                </div>
+                                            )}
                                         </Form.Group>
                                     </Row>
 
@@ -278,6 +280,8 @@ export const Register = () => {
                                             required
                                             checked={acceptedPrivacy}
                                             onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                                            feedback="Debes aceptar la política de privacidad."
+                                            feedbackType="invalid"
                                             label={
                                                 <>
                                                     Acepto la{" "}
