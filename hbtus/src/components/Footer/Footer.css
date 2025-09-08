@@ -48,6 +48,9 @@
   padding-top: 5px;
   margin-top: 10px;
 }
+h4 {
+  color: rgb(192, 175, 153);
+}
 
 /* Responsive para móviles */
 @media (max-width: 768px) {
@@ -68,5 +71,12 @@
 
   .footer-copy {
     font-size: 0.75em;
+  }
+  h4{
+    font-size: 1.3rem;
+    color: rgb(192, 175, 153);
+  }
+  p {
+    font-size: 0.8rem;
   }
 }

@@ -4,75 +4,78 @@ import { Link } from "react-router-dom";
 import Privacity from "../ModalPrivacity/ModalPrivacity";
 
 function Footer() {
-  const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
-  const handleOpenModal = () => setModalVisible(true);
-  const handleCloseModal = () => setModalVisible(false);
-  const handleAccept = () => {
-    alert("Política de privacidad aceptada ✅");
-    setModalVisible(false);
-  };
+    const handleOpenModal = () => setModalVisible(true);
+    const handleCloseModal = () => setModalVisible(false);
+    const handleAccept = () => {
+        alert("Política de privacidad aceptada ✅");
+        setModalVisible(false);
+    };
 
-  return (
-    <footer className="footer">
-      <div className="footer-container">
-        {/* Contacto */}
-        <div className="footer-section">
-          <h4>Contacto</h4>
-          <p>
-            Email:{" "}
-            <a href="mailto:hazbrillartuser@gmail.com" className="footer-link">
-              hazbrillartuser@gmail.com
-            </a>
-          </p>
-          <p>
-            Teléfono:{" "}
-            <a href="tel:+34648279125" className="footer-link">
-              +34 648 27 91 25
-            </a>
-          </p>
-        </div>
+    return (
+        <footer className="footer">
+            <div className="footer-container">
+                {/* Columna de contacto */}
+                <div className="footer-section">
+                    <h4>Contacto</h4>
+                    <p>
+                        Email:{" "}
+                        <a href="mailto:hazbrillartuser@gmail.com" className="footer-link">
+                            hazbrillartuser@gmail.com
+                        </a>
+                    </p>
+                    <p>
+                        Teléfono:{" "}
+                        <a href="tel:+34648279125" className="footer-link">
+                            +34 648 27 91 25
+                        </a>
+                    </p>
+                </div>
 
-        {/* Enlaces */}
-        <div className="footer-section">
-          <h4>Enlaces</h4>
-          <ul className="footer-list">
-            <li>
-              <Link to="/" className="footer-link">
-                Sobre nosotros
-              </Link>
-            </li>
-            <li>
-              <Link to="/menu" className="footer-link">
-                Servicios
-              </Link>
-            </li>
-            <li>
-              <Link className="footer-link" onClick={handleOpenModal}>
-                Política de privacidad
-              </Link>
-            </li>
-          </ul>
-        </div>
+                {/* Columna de enlaces */}
+                <div className="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul className="footer-list">
+                        <li>
+                            <Link to="/" className="footer-link">
+                                Sobre nosotros
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/menu" className="footer-link">
+                                Servicios
+                            </Link>
+                        </li>
+                        <li>
+                            <button className="footer-link" onClick={handleOpenModal}>
+                                Política de privacidad
+                            </button>
+                        </li>
+                    </ul>
+                </div>
 
-        {/* Redes sociales */}
-        <div className="footer-section">
-          <h4>Síguenos</h4>
-          <p>Próximamente</p>
-        </div>
-      </div>
+                {/* Columna “decorativa / informativa” */}
+                <div className="footer-section">
+                    <h4>Haz brillar tu ser</h4>
+                    <p>Tu bienestar, nuestra prioridad 🌟</p>
+                    <p><Link to="/reviews" className="footer-link">
+                        Reseñas
+                    </Link></p>
+                </div>
+            </div>
 
-      <div className="footer-copy">
-        &copy; {new Date().getFullYear()} Haz brillar tu ser. Todos los derechos reservados.
-      </div>
+            <div className="footer-copy">
+                &copy; {new Date().getFullYear()} Haz brillar tu ser. Todos los derechos reservados.
+            </div>
 
-      <Privacity
-        show={modalVisible}
-        onHide={handleCloseModal}
-        onAccept={handleAccept}
-      />
-    </footer>
-  );
+            <Privacity
+                show={modalVisible}
+                onHide={handleCloseModal}
+                onAccept={handleAccept}
+            />
+        </footer>
+    );
 }
 
 export default Footer;
