@@ -48,7 +48,7 @@
   padding-top: 5px;
   margin-top: 10px;
 }
-h4 {
+.h4-footer {
   color: rgb(192, 175, 153);
 }
 
@@ -56,7 +56,7 @@ h4 {
 @media (max-width: 768px) {
 .footer {
     padding: 12px 10px;
-    position: static; /* quita absolute/fixed para que no tape contenido */
+    position: static; 
   }
 
   .footer-container {
@@ -72,7 +72,7 @@ h4 {
   .footer-copy {
     font-size: 0.75em;
   }
-  h4{
+  .h4-footer{
     font-size: 1.3rem;
     color: rgb(192, 175, 153);
   }

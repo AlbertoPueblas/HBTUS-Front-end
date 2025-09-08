@@ -124,16 +124,17 @@ export const Register = () => {
             />
             <Container className="my-4">
                 <Card className='card'>
-                    <h4>Registrate</h4>
                     <Card.Body>
-                        <Row>
+                        <Row className="mb-3">
                             <Col xs={12} md={4}>
                                 <Image className='img' src={MPImage} width={200} roundedCircle />
                             </Col>
                             <Col xs={12} md={8}>
+                                <h1 className='texto'>Registrate</h1>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Row className="mb-3">
                                         <Form.Group as={Col} sm="12" md="5">
+                                            <Form.Label>Nombre</Form.Label>
                                             <Form.Control
                                                 name="firstName"
                                                 required
@@ -146,7 +147,9 @@ export const Register = () => {
                                                 Introduce un nombre válido
                                             </Form.Control.Feedback>
 
+                                            <Form.Label>Email</Form.Label>
                                             <InputGroup className="mt-2" hasValidation>
+
                                                 <InputGroup.Text >@</InputGroup.Text>
                                                 <Form.Control id="inputE"
                                                     name="email"
@@ -165,14 +168,21 @@ export const Register = () => {
 
                                         <Form.Group as={Col} sm="12" md="5">
                                             {/* Campo password */}
+                                            <Form.Label>Contraseña</Form.Label>
+
                                             <InputGroup>
                                                 <Form.Control
                                                     name="password"
-                                                    required
                                                     type={showPassword ? "text" : "password"}
+                                                    required
                                                     placeholder="Contraseña"
                                                     value={credentials.password}
                                                     onChange={inputHandler}
+                                                    isInvalid={
+                                                        validated &&
+                                                        credentials.password !== "" &&
+                                                        credentials.password !== credentials.confirmPassword 
+                                                    }
                                                 />
                                                 <Button
                                                     variant="outline-secondary"
@@ -181,12 +191,13 @@ export const Register = () => {
                                                 >
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </Button>
-                                                <Form.Control.Feedback type="valid">
-                                                    Las contraseñas coinciden.
+                                                <Form.Control.Feedback type="invalid">
+                                                    Las contraseñas no coinciden.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
 
                                             {/* Campo confirmPassword */}
+                                            <Form.Label>Contraseña</Form.Label>
                                             <InputGroup className="mt-2">
                                                 <Form.Control
                                                     name="confirmPassword"
@@ -200,11 +211,7 @@ export const Register = () => {
                                                         credentials.confirmPassword !== "" &&
                                                         credentials.confirmPassword !== credentials.password
                                                     }
-                                                    isValid={
-                                                        validated &&
-                                                        credentials.confirmPassword !== "" &&
-                                                        credentials.confirmPassword === credentials.password
-                                                    }
+
                                                 />
                                                 <Button
                                                     variant="outline-secondary"
@@ -213,11 +220,9 @@ export const Register = () => {
                                                 >
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </Button>
+
                                                 <Form.Control.Feedback type="invalid">
                                                     Las contraseñas no coinciden.
-                                                </Form.Control.Feedback>
-                                                <Form.Control.Feedback type="valid">
-                                                    Las contraseñas coinciden.
                                                 </Form.Control.Feedback>
                                             </InputGroup>
                                         </Form.Group>
@@ -225,6 +230,8 @@ export const Register = () => {
 
 
                                         <Form.Group as={Col} sm="12" md="5" className="mt-2">
+                                            <Form.Label>Teléfono</Form.Label>
+
                                             <Form.Control
                                                 name="phone"
                                                 required
@@ -239,6 +246,7 @@ export const Register = () => {
                                         </Form.Group>
 
                                         <Form.Group as={Col} sm="12" md="5" className="mt-2">
+                                            <Form.Label>Fecha de nacimiento</Form.Label>
                                             <ReactDatePicker
                                                 selected={credentials.birthDate ? parseYMD(credentials.birthDate) : null}
                                                 onChange={(date) =>

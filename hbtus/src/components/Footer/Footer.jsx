@@ -18,7 +18,7 @@ function Footer() {
             <div className="footer-container">
                 {/* Columna de contacto */}
                 <div className="footer-section">
-                    <h4>Contacto</h4>
+                    <h4 className="h4-footer">Contacto</h4>
                     <p>
                         Email:{" "}
                         <a href="mailto:hazbrillartuser@gmail.com" className="footer-link">
@@ -35,7 +35,7 @@ function Footer() {
 
                 {/* Columna de enlaces */}
                 <div className="footer-section">
-                    <h4>Enlaces</h4>
+                    <h4 className="h4-footer">Enlaces</h4>
                     <ul className="footer-list">
                         <li>
                             <Link to="/" className="footer-link">
@@ -57,7 +57,7 @@ function Footer() {
 
                 {/* Columna “decorativa / informativa” */}
                 <div className="footer-section">
-                    <h4>Haz brillar tu ser</h4>
+                    <h4 className="h4-footer">Haz brillar tu ser</h4>
                     <p>Tu bienestar, nuestra prioridad 🌟</p>
                     <p><Link to="/reviews" className="footer-link">
                         Reseñas
