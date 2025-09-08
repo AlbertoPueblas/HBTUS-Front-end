@@ -124,12 +124,12 @@ export const Register = () => {
             />
             <Container className="my-4">
                 <Card className='card'>
+                    <h4>Registrate</h4>
                     <Card.Body>
                         <Row>
                             <Col xs={12} md={4}>
                                 <Image className='img' src={MPImage} width={200} roundedCircle />
                             </Col>
-                    <h4>Registrate</h4>
                             <Col xs={12} md={8}>
                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                     <Row className="mb-3">

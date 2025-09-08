@@ -3,8 +3,9 @@ import './App.css'
 import { Body } from './pages/Body/Body'
 import { ToastContainer, Bounce } from 'react-toastify'
 import { AutoLogout } from './components/AutoLogout/AutoLogout'
+import Footer from './components/Footer/Footer'
 
-
+//----------------------------------------------------------------------------
 
 function App() {
 
@@ -26,7 +27,8 @@ function App() {
       <AutoLogout />
       <Header />
       <Body />
-    </>
+      <Footer />
+      </>
   )
 }
 

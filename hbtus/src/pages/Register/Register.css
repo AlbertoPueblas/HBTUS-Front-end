@@ -1,8 +1,5 @@
-.react-datepicker-popper {
-  z-index: 1050; /* mayor que Bootstrap modal/input */
-}
-@media (max-width: 768px) {
 
+@media (max-width: 768px) {
 
   #inputE {
     font-size: 1rem;         /* inputs un poco más grandes en móvil */
