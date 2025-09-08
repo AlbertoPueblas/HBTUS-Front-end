@@ -25,10 +25,14 @@ function App() {
         transition={Bounce}
       />
       <AutoLogout />
-      <Header />
-      <Body />
+      <div className="app-container">
+        <Header />
+        <div className="main-content">
+        <Body />
+        </div>
       <Footer />
-      </>
+      </div>
+    </>
   )
 }
 
