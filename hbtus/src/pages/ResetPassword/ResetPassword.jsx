@@ -8,6 +8,10 @@ import Card from "react-bootstrap/Card";
 import InputGroup from "react-bootstrap/InputGroup";
 import { resetPasswordCall } from "../../services/apiCalls";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./ResetPassword.css"
+import Metatron from "../../images/metatron.png";
+import Image from "react-bootstrap/Image";
+import { Col, Row } from "react-bootstrap";
 
 //-----------------------------------------------------------------------
 
@@ -66,59 +70,67 @@ const ResetPassword = () => {
             />
             <Container className="my-4">
                 <Card className="card">
+
                     <Card.Body>
-                        <h2>Restablecer contraseña</h2>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Form.Group controlId="newPassword">
-                                <Form.Label>Nueva contraseña</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type={showNewPassword ? "text" : "password"}
-                                        placeholder="Nueva contraseña"
-                                        required
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                    />
-                                    <Button
-                                        variant="outline-secondary"
-                                        onClick={() => setShowNewPassword(!showNewPassword)}
-                                        title={showNewPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                    >
-                                        {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </Button>
-                                </InputGroup>
-                                <Form.Control.Feedback type="invalid">
-                                    Ingresa tu nueva contraseña.
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                        <Row className="mb-3">
+                            <Col xs={12} md={4}>
+                                <Image className="img" src={Metatron} width={200} roundedCircle />
+                            </Col>
+                            <Col xs={12} md={8}>
+                                <h2 className="texto">Restablecer contraseña</h2>
+                                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                                    <Form.Group controlId="newPassword">
+                                        <Form.Label>Nueva contraseña</Form.Label>
+                                        <InputGroup>
+                                            <Form.Control
+                                                type={showNewPassword ? "text" : "password"}
+                                                placeholder="Nueva contraseña"
+                                                required
+                                                value={newPassword}
+                                                onChange={(e) => setNewPassword(e.target.value)}
+                                            />
+                                            <Button
+                                                variant="outline-secondary"
+                                                onClick={() => setShowNewPassword(!showNewPassword)}
+                                                title={showNewPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                            >
+                                                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                                            </Button>
+                                        </InputGroup>
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingresa tu nueva contraseña.
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                            <Form.Group controlId="confirmPassword" className="mt-3">
-                                <Form.Label>Confirmar contraseña</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        placeholder="Confirmar contraseña"
-                                        required
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                    />
-                                    <Button
-                                        variant="outline-secondary"
-                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        title={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                    >
-                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </Button>
-                                </InputGroup>
-                                <Form.Control.Feedback type="invalid">
-                                    Confirma tu contraseña.
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                                    <Form.Group controlId="confirmPassword" className="mt-3">
+                                        <Form.Label>Confirmar contraseña</Form.Label>
+                                        <InputGroup>
+                                            <Form.Control
+                                                type={showConfirmPassword ? "text" : "password"}
+                                                placeholder="Confirmar contraseña"
+                                                required
+                                                value={confirmPassword}
+                                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                            />
+                                            <Button
+                                                variant="outline-secondary"
+                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                title={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                            >
+                                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                            </Button>
+                                        </InputGroup>
+                                        <Form.Control.Feedback type="invalid">
+                                            Confirma tu contraseña.
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                            <Button type="submit" className="mt-3">
-                                Restablecer contraseña
-                            </Button>
-                        </Form>
+                                    <Button type="submit" className="mt-3">
+                                        Restablecer contraseña
+                                    </Button>
+                                </Form>
+                            </Col>
+                        </Row>
                     </Card.Body>
                 </Card>
             </Container>

@@ -116,7 +116,7 @@ export const Reviews = () => {
                     color={star <= Math.round(averageRating) ? "#ffc107" : "#e4e5e9"}
                   />
                 ))}
-                <span style={{ marginLeft: 10, fontSize: 14 }}>
+                <span className="spanDate" style={{ marginLeft: 10, fontSize: 14 }}>
                   ({reviews.length} reseñas)
                 </span>
               </div>
@@ -128,7 +128,7 @@ export const Reviews = () => {
           ) : (
             paginatedReviews.map((r) => (
               <Card key={r.id} className="mb-2">
-                <Card.Body>
+                <Card.Body >
                   <p><strong>{r.user.firstName || "Usuario"}</strong> dijo:</p>
                   <p>{r.comment}</p>
                   <div style={{ display: "flex", alignItems: "center" }} className="start">

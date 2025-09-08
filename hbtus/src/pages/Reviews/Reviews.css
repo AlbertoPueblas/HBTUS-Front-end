@@ -8,16 +8,22 @@
     margin-right: auto;
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
     padding: 0rem;
 }
 @media (max-width: 768px) {
   .card.my-3 {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
+    /* height: 20rem; */
     padding: 0rem;
   }
   p {
     font-size: 0.95rem;
+  }
+  .spanDate {
+    margin-top: 100rem;
+  }
+  .cardReview {
+    height: 1rem;
   }
 }

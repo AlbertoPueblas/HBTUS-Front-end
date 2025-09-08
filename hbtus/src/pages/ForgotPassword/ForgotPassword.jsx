@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Metatron from "../../images/metatron.png";
 import { sendResetEmail } from "../../services/apiCalls"; // <-- función que llama a tu backend
 import { Link, Navigate, useNavigate } from "react-router-dom";
-
+import "./ForgotPassword.css"
 //--------------------------------------------------------------
 
 export const ForgotPassword = () => {
@@ -52,16 +52,16 @@ export const ForgotPassword = () => {
           <Card.Body>
             <Row className="mb-3">
               <Col xs={12} md={4}>
-                <Image src={Metatron} width={200} roundedCircle />
+                <Image className="img" src={Metatron} width={200} roundedCircle />
               </Col>
               <Col xs={12} md={8}>
-                <h1>Recuperar contraseña</h1>
+                <h1 className="texto">Recuperar contraseña</h1>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   <Form.Group controlId="validationEmail">
                     <Form.Label>Email</Form.Label>
                     <InputGroup hasValidation>
                       <InputGroup.Text>@</InputGroup.Text>
-                      <Form.Control
+                      <Form.Control id="inputE"
                         type="email"
                         placeholder="Email"
                         required
